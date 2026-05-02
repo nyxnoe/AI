@@ -3,15 +3,16 @@ app.py — AI Decision Simulator
 Flask backend with:
   - Input validation via data_processor.py
   - Rule-based fallback via decision_engine.py
-  - Hybrid AI mode toggle (local engine vs Anthropic LLM)
-  - SQLite history logging
-  - SSE streaming proxy to Anthropic
+  - Tri-engine selector: local | ollama (streaming) | anthropic (streaming)
+  - Smart auto-routing when no engine specified
+  - Per-request latency tracking stored in DB
+  - SQLite history via database.py (zero duplication)
 """
 
 import os
 import json
-import sqlite3
 import re
+import time
 import logging
 from flask import Flask, render_template, request, Response, jsonify, g
 from dotenv import load_dotenv
@@ -19,6 +20,11 @@ import requests
 
 from data_processor import process_input, ValidationError, summarise
 from decision_engine import make_decision
+from database import (
+    get_connection, init_schema,
+    insert_simulation, fetch_history, fetch_simulation, delete_simulation,
+)
+from ollama_engine import stream_ollama, is_available
 
 load_dotenv()
 
@@ -31,12 +37,11 @@ ANTHROPIC_API = "https://api.anthropic.com/v1/messages"
 ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
 
-# ── Database ──────────────────────────────────────────────────────────────────
+# ── Database helpers (no logic duplicated from database.py) ───────────────────
 
 def get_db():
     if "db" not in g:
-        g.db = sqlite3.connect(app.config["DATABASE"], detect_types=sqlite3.PARSE_DECLTYPES)
-        g.db.row_factory = sqlite3.Row
+        g.db = get_connection(app.config["DATABASE"])
     return g.db
 
 @app.teardown_appcontext
@@ -45,46 +50,31 @@ def close_db(error=None):
     if db:
         db.close()
 
-def init_db():
-    db = get_db()
-    db.execute("""
-        CREATE TABLE IF NOT EXISTS simulations (
-            id          INTEGER PRIMARY KEY AUTOINCREMENT,
-            domain      TEXT    NOT NULL,
-            scenario    TEXT    NOT NULL,
-            budget      INTEGER NOT NULL,
-            risk        INTEGER NOT NULL,
-            time_weeks  INTEGER NOT NULL,
-            priority    TEXT    NOT NULL,
-            engine_used TEXT    NOT NULL DEFAULT 'anthropic',
-            result_json TEXT,
-            risk_level  TEXT,
-            confidence  INTEGER,
-            created_at  REAL    DEFAULT (strftime('%s','now'))
-        )
-    """)
-    db.commit()
-
-def save_simulation(params, result, engine_used):
+def save_simulation(params, result, engine_used, latency_ms: int = 0):
     try:
-        db = get_db()
-        db.execute(
-            """INSERT INTO simulations
-               (domain, scenario, budget, risk, time_weeks, priority,
-                engine_used, result_json, risk_level, confidence)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-            (
-                params["domain"], params["scenario"], params["budget"],
-                params["risk"], params["time"], params["priority"],
-                engine_used,
-                json.dumps(result) if result else None,
-                result.get("riskLevel") if result else None,
-                result.get("confidenceScore") if result else None,
-            ),
-        )
-        db.commit()
+        insert_simulation(get_db(), params, result, engine_used, latency_ms)
     except Exception as e:
         app.logger.warning(f"DB save failed: {e}")
+
+
+# ── Smart engine auto-router ──────────────────────────────────────────────────
+
+def select_engine(requested: str | None) -> str:
+    """
+    If the user explicitly picked an engine, honour it.
+    Otherwise pick the best available engine automatically:
+      1. Anthropic (highest quality, needs API key)
+      2. Ollama    (local LLM, needs server running)
+      3. local     (always available, instant)
+    """
+    if requested and requested in ("local", "ollama", "anthropic"):
+        return requested
+    # Auto-select
+    if ANTHROPIC_KEY:
+        return "anthropic"
+    if is_available():
+        return "ollama"
+    return "local"
 
 
 # ── Routes ────────────────────────────────────────────────────────────────────
@@ -93,11 +83,13 @@ def save_simulation(params, result, engine_used):
 def index():
     return render_template("ai-decision-simulator.html")
 
+
 @app.route("/api/simulate", methods=["POST"])
 def simulate():
-    data = request.get_json(force=True)
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON or wrong Content-Type"}), 400
 
-    # Step 2: Data Processing (data_processor.py)
     try:
         params = process_input(data)
     except ValidationError as e:
@@ -105,29 +97,88 @@ def simulate():
 
     app.logger.info(f"Simulation: {summarise(params)}")
 
-    # Mode toggle — frontend sends use_ai: true/false
-    want_ai      = data.get("use_ai", True)
-    use_anthropic = want_ai and bool(ANTHROPIC_KEY)
+    # Engine selection — respects explicit choice, auto-routes if absent/invalid
+    engine      = select_engine(data.get("engine"))
+    ollama_model = data.get("model", "llama3")   # frontend can optionally send model name
 
-    if not use_anthropic:
-        # Step 3+4: Local engine path (decision_engine.py)
-        app.logger.info("Mode: local decision engine")
+    app.logger.info(f"Engine: {engine}")
+
+    # ── LOCAL ─────────────────────────────────────────────────────────────────
+    if engine == "local":
+        t0     = time.time()
         result = make_decision(params).to_dict()
-        save_simulation(params, result, "local")
+        ms     = int((time.time() - t0) * 1000)
+        save_simulation(params, result, "local", ms)
 
         def local_stream():
-            yield f"data: {json.dumps({'done': True, 'result': result, 'engine': 'local'})}\n\n"
+            yield f"data: {json.dumps({'done': True, 'result': result, 'engine': 'local', 'latency_ms': ms})}\n\n"
 
         return Response(local_stream(), mimetype="text/event-stream",
                         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
-    # Anthropic streaming path
-    # Run local engine first to generate grounding context for the prompt
+    # ── OLLAMA (streaming) ────────────────────────────────────────────────────
+    if engine == "ollama":
+        if not is_available():
+            app.logger.warning("Ollama not running — falling back to local engine")
+            result = make_decision(params).to_dict()
+            save_simulation(params, result, "ollama_fallback", 0)
+
+            def ollama_unavail_stream():
+                yield f"data: {json.dumps({'done': True, 'result': result, 'engine': 'ollama_fallback', 'latency_ms': 0})}\n\n"
+
+            return Response(ollama_unavail_stream(), mimetype="text/event-stream",
+                            headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+        preflight = make_decision(params)
+        prompt    = build_prompt(params, preflight)
+
+        def ollama_stream():
+            t0        = time.time()
+            gen       = stream_ollama(prompt, model=ollama_model)
+            result    = None
+            engine_used = "ollama"
+
+            try:
+                while True:
+                    delta = next(gen)
+                    yield f"data: {json.dumps({'delta': delta})}\n\n"
+            except StopIteration as e:
+                result = e.value
+
+            ms = int((time.time() - t0) * 1000)
+
+            if not result:
+                app.logger.warning("Ollama stream returned no parseable JSON — local fallback")
+                result      = preflight.to_dict()
+                engine_used = "ollama_fallback"
+
+            save_simulation(params, result, engine_used, ms)
+            yield f"data: {json.dumps({'done': True, 'result': result, 'engine': engine_used, 'latency_ms': ms})}\n\n"
+
+        return Response(ollama_stream(), mimetype="text/event-stream",
+                        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+    # ── ANTHROPIC (streaming) ─────────────────────────────────────────────────
+    if not ANTHROPIC_KEY:
+        app.logger.warning("No Anthropic key — auto-falling back to local engine")
+        result = make_decision(params).to_dict()
+        save_simulation(params, result, "local_fallback", 0)
+
+        def no_key_stream():
+            yield f"data: {json.dumps({'done': True, 'result': result, 'engine': 'local_fallback', 'latency_ms': 0})}\n\n"
+
+        return Response(no_key_stream(), mimetype="text/event-stream",
+                        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
     preflight = make_decision(params)
     prompt    = build_prompt(params, preflight)
 
     def anthropic_stream():
-        full_text = ""
+        full_text   = ""
+        t0          = time.time()
+        engine_used = "anthropic"
+        result      = None
+
         try:
             with requests.post(
                 ANTHROPIC_API,
@@ -137,10 +188,10 @@ def simulate():
                     "content-type":      "application/json",
                 },
                 json={
-                    "model":      "claude-sonnet-4-20250514",
+                    "model":    "claude-sonnet-4-20250514",
                     "max_tokens": 1200,
-                    "stream":     True,
-                    "messages":   [{"role": "user", "content": prompt}],
+                    "stream":   True,
+                    "messages": [{"role": "user", "content": prompt}],
                 },
                 stream=True,
                 timeout=60,
@@ -166,30 +217,28 @@ def simulate():
                     except json.JSONDecodeError:
                         pass
 
-            # Parse result
-            result      = None
-            engine_used = "anthropic"
-            m = re.search(r"\{[\s\S]*\}", full_text)
+            ms = int((time.time() - t0) * 1000)
+            m  = re.search(r"\{[\s\S]*\}", full_text)
             if m:
                 try:
                     result = json.loads(m.group())
                 except json.JSONDecodeError:
                     pass
 
-            # Fallback to local engine if LLM returned garbage
             if not result:
-                app.logger.warning("LLM unparseable — falling back to local engine")
+                app.logger.warning("LLM unparseable — local fallback")
                 result      = preflight.to_dict()
                 engine_used = "local_fallback"
 
-            save_simulation(params, result, engine_used)
-            yield f"data: {json.dumps({'done': True, 'result': result, 'engine': engine_used})}\n\n"
+            save_simulation(params, result, engine_used, ms)
+            yield f"data: {json.dumps({'done': True, 'result': result, 'engine': engine_used, 'latency_ms': ms})}\n\n"
 
         except requests.exceptions.Timeout:
             app.logger.warning("Anthropic timeout — local fallback")
             result = preflight.to_dict()
-            save_simulation(params, result, "local_fallback")
-            yield f"data: {json.dumps({'done': True, 'result': result, 'engine': 'local_fallback'})}\n\n"
+            ms = int((time.time() - t0) * 1000)
+            save_simulation(params, result, "local_fallback", ms)
+            yield f"data: {json.dumps({'done': True, 'result': result, 'engine': 'local_fallback', 'latency_ms': ms})}\n\n"
 
         except Exception as e:
             app.logger.error(f"Stream error: {e}")
@@ -201,35 +250,21 @@ def simulate():
 
 @app.route("/api/history")
 def history():
-    db   = get_db()
-    rows = db.execute(
-        """SELECT id, domain, scenario, budget, risk, time_weeks, priority,
-                  engine_used, risk_level, confidence, created_at
-           FROM simulations ORDER BY created_at DESC LIMIT 20"""
-    ).fetchall()
-    return jsonify([dict(r) for r in rows])
+    return jsonify(fetch_history(get_db()))
 
 
 @app.route("/api/history/<int:sim_id>")
 def history_detail(sim_id):
-    db  = get_db()
-    row = db.execute("SELECT * FROM simulations WHERE id = ?", (sim_id,)).fetchone()
+    row = fetch_simulation(get_db(), sim_id)
     if not row:
         return jsonify({"error": "Not found"}), 404
-    d = dict(row)
-    if d.get("result_json"):
-        try:
-            d["result"] = json.loads(d["result_json"])
-        except Exception:
-            d["result"] = None
-    return jsonify(d)
+    return jsonify(row)
 
 
 @app.route("/api/history/<int:sim_id>", methods=["DELETE"])
 def delete_history(sim_id):
-    db = get_db()
-    db.execute("DELETE FROM simulations WHERE id = ?", (sim_id,))
-    db.commit()
+    if not delete_simulation(get_db(), sim_id):
+        return jsonify({"error": "Not found"}), 404
     return jsonify({"deleted": sim_id})
 
 
@@ -246,12 +281,12 @@ Risk Tolerance: {p['risk']}/10
 Time Horizon: {p['time']} weeks
 Priority: {p['priority']}
 
-Pre-computed baseline (rule-based engine — use as anchor, not constraint):
+Pre-computed baseline (rule-based engine):
 - Risk level: {pf['riskLevel']}
 - Confidence: {pf['confidenceScore']}%
 - Estimated ROI: {pf['expectedROI']}
 
-Return this exact JSON (outcome probabilities must sum to approximately 100):
+Return this exact JSON (outcome probabilities must sum to ~100):
 {{
   "summary": "2-sentence executive summary",
   "riskLevel": "Low|Medium|High|Critical",
@@ -274,8 +309,7 @@ Return this exact JSON (outcome probabilities must sum to approximately 100):
 # ── Entry ─────────────────────────────────────────────────────────────────────
 
 with app.app_context():
-    init_db()
+    init_schema(get_connection(app.config["DATABASE"]))
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
-    
+    app.run(debug=True, host="0.0.0.0", port=6000)

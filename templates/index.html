@@ -1,14 +1,959 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.5">
-  <style type="text/css">
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Decision Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13161d;
+    --bg3: #1a1e28;
+    --surface: #1f2433;
+    --surface2: #252b3b;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8eaf0;
+    --text2: #9ba3b8;
+    --text3: #5c6480;
+    --accent: #4f8ef7;
+    --accent2: #7b5ea7;
+    --green: #3ecf8e;
+    --amber: #f5a623;
+    --red: #ef4444;
+    --teal: #2dd4bf;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'Instrument Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', 'Courier New', monospace;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-lg: 18px;
+  }
+
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 0 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    background: rgba(13,15,20,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .logo { display: flex; align-items: center; gap: 10px; }
+
+  .logo-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .logo-icon svg { width: 18px; height: 18px; fill: white; }
+
+  .logo-text { font-family: var(--font-mono); font-weight: 500; font-size: 0.95rem; letter-spacing: -0.01em; color: var(--text); }
+  .logo-text span { color: var(--accent); }
+
+  .header-badge {
+    font-family: var(--font-mono); font-size: 0.7rem; color: var(--green);
+    background: rgba(62,207,142,0.1); border: 1px solid rgba(62,207,142,0.2);
+    padding: 4px 10px; border-radius: 20px; letter-spacing: 0.05em;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 2.5rem; }
+
+  .hero { text-align: center; padding: 4rem 0 3rem; }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.25rem;
+  }
+
+  .hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 3.6rem); line-height: 1.15; font-weight: 400; color: var(--text); margin-bottom: 1rem; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero p { color: var(--text2); font-size: 1.05rem; max-width: 540px; margin: 0 auto; line-height: 1.7; }
+
+  .main-grid { display: grid; grid-template-columns: 380px 1fr; gap: 2rem; align-items: start; }
+
+  .panel { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+
+  .panel-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .panel-header-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .panel-title { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; color: var(--text2); text-transform: uppercase; }
+  .panel-body { padding: 1.5rem; }
+
+  .form-section { margin-bottom: 1.5rem; }
+  .form-section:last-child { margin-bottom: 0; }
+
+  .section-label { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.9rem; }
+
+  .field { margin-bottom: 1rem; }
+  .field:last-child { margin-bottom: 0; }
+
+  label { display: block; font-size: 0.82rem; font-weight: 500; color: var(--text2); margin-bottom: 0.4rem; }
+
+  select, input[type="number"], textarea {
+    width: 100%; background: var(--surface); border: 1px solid var(--border2);
+    border-radius: var(--radius-sm); color: var(--text); font-family: var(--font-body);
+    font-size: 0.88rem; padding: 0.6rem 0.85rem; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s; appearance: none; -webkit-appearance: none;
+  }
+
+  select:focus, input[type="number"]:focus, textarea:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ba3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2.2rem;
+  }
+
+  textarea { resize: vertical; min-height: 80px; }
+
+  .slider-wrap { display: flex; align-items: center; gap: 12px; }
+
+  input[type="range"] {
+    flex: 1; -webkit-appearance: none; height: 4px; background: var(--surface2);
+    border-radius: 2px; outline: none; cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent); cursor: pointer; transition: transform 0.15s;
+    box-shadow: 0 0 0 3px rgba(79,142,247,0.2);
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  .slider-val { font-family: var(--font-mono); font-size: 0.82rem; color: var(--accent); min-width: 28px; text-align: right; font-weight: 500; }
+
+  .radio-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  .radio-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 0.65rem 0.85rem;
+    cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+
+  .radio-card:hover { border-color: var(--border2); background: var(--surface2); }
+  .radio-card.active { border-color: var(--accent); background: rgba(79,142,247,0.1); }
+  .radio-card input { display: none; }
+
+  .radio-dot {
+    width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--text3);
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  }
+
+  .radio-card.active .radio-dot { border-color: var(--accent); background: var(--accent); }
+
+  .radio-card.active .radio-dot::after {
+    content: ''; width: 5px; height: 5px; border-radius: 50%; background: white;
+  }
+
+  .radio-label { font-size: 0.82rem; color: var(--text2); font-weight: 500; transition: color 0.2s; }
+  .radio-card.active .radio-label { color: var(--accent); }
+
+  /* 3-ENGINE TOGGLE */
+  .engine-toggle { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 0.85rem; }
+
+  .engine-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 0.6rem 0.5rem;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    text-align: center;
+  }
+
+  .engine-card:hover { border-color: var(--border2); background: var(--surface2); }
+  .engine-card.active { border-color: var(--accent); background: rgba(79,142,247,0.1); }
+
+  .engine-icon { font-size: 1rem; line-height: 1; }
+
+  .engine-name {
+    font-family: var(--font-mono); font-size: 0.62rem; font-weight: 500;
+    color: var(--text2); transition: color 0.2s;
+  }
+
+  .engine-card.active .engine-name { color: var(--accent); }
+
+  .engine-desc {
+    font-family: var(--font-mono); font-size: 0.55rem; color: var(--text3);
+    transition: color 0.2s;
+  }
+
+  .engine-card.active .engine-desc { color: rgba(79,142,247,0.7); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+
+  .btn-simulate {
+    width: 100%; padding: 0.85rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white; border: none; border-radius: var(--radius-sm);
+    font-family: var(--font-body); font-size: 0.9rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; letter-spacing: 0.01em;
+    position: relative; overflow: hidden;
+  }
+
+  .btn-simulate:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn-simulate:active { transform: translateY(0); }
+  .btn-simulate:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .spinner {
+    display: inline-block; width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3); border-top-color: white;
+    border-radius: 50%; animation: spin 0.7s linear infinite;
+    vertical-align: middle; margin-right: 8px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .results-panel { display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .empty-state {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 4rem 2rem; text-align: center;
+  }
+
+  .empty-icon {
+    width: 56px; height: 56px; background: var(--surface);
+    border-radius: 14px; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.25rem;
+  }
+
+  .empty-icon svg { width: 26px; height: 26px; stroke: var(--text3); }
+  .empty-state h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; color: var(--text); margin-bottom: 0.5rem; }
+  .empty-state p { font-size: 0.88rem; color: var(--text3); max-width: 300px; margin: 0 auto; }
+
+  .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+
+  .metric-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; }
+  .metric-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .metric-value { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 500; line-height: 1.2; }
+  .metric-badge { display: inline-block; font-size: 0.65rem; padding: 2px 7px; border-radius: 10px; margin-top: 6px; font-family: var(--font-mono); font-weight: 500; }
+
+  .outcomes-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .outcome-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1rem 1.25rem;
+    display: flex; align-items: flex-start; gap: 1rem; transition: border-color 0.2s;
+  }
+
+  .outcome-item:hover { border-color: var(--border2); }
+  .outcome-rank { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text3); min-width: 22px; margin-top: 2px; }
+  .outcome-body { flex: 1; }
+  .outcome-title { font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 0.25rem; }
+  .outcome-desc { font-size: 0.82rem; color: var(--text2); line-height: 1.5; }
+  .outcome-score-wrap { display: flex; align-items: center; gap: 8px; margin-top: 0.5rem; }
+  .outcome-bar { flex: 1; height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+  .outcome-bar-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+  .outcome-pct { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3); min-width: 34px; text-align: right; }
+  .outcome-badge { font-family: var(--font-mono); font-size: 0.65rem; padding: 3px 8px; border-radius: 8px; font-weight: 500; white-space: nowrap; }
+
+  .chart-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+
+  .chart-tabs { display: flex; border-bottom: 1px solid var(--border); padding: 0 1.5rem; }
+
+  .chart-tab {
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3);
+    padding: 0.9rem 0; margin-right: 1.5rem; cursor: pointer;
+    border-bottom: 2px solid transparent; transition: all 0.2s;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+
+  .chart-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .chart-body { padding: 1.5rem; position: relative; min-height: 260px; }
+
+  canvas { display: block; }
+
+  .insight-box {
+    background: rgba(79,142,247,0.06); border: 1px solid rgba(79,142,247,0.18);
+    border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; gap: 10px;
+  }
+
+  .insight-icon { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; }
+  .insight-icon svg { width: 20px; height: 20px; stroke: var(--accent); fill: none; }
+  .insight-text { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+  .insight-text strong { color: var(--text); font-weight: 600; }
+
+  .history-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+  .history-chip {
+    font-family: var(--font-mono); font-size: 0.68rem;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 4px 10px; color: var(--text2);
+    cursor: pointer; transition: all 0.2s;
+  }
+
+  .history-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  .stream-area { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+
+  .stream-header {
+    padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .stream-title { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .live-dot { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 0.68rem; color: var(--green); }
+
+  .live-dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 1.5s infinite; }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .stream-body {
+    padding: 1.25rem 1.5rem; font-size: 0.88rem; color: var(--text2);
+    line-height: 1.75; min-height: 100px; font-family: var(--font-mono);
+    white-space: pre-wrap; word-break: break-word;
+  }
+
+  footer {
+    margin-top: 4rem; border-top: 1px solid var(--border);
+    padding: 1.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .footer-text { font-size: 0.78rem; color: var(--text3); font-family: var(--font-mono); }
+  .footer-text a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 900px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .metrics-row { grid-template-columns: 1fr 1fr; }
+    header { padding: 0 1.25rem; }
+    .container { padding: 1.5rem; }
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  .animate-in { animation: fadeIn 0.4s ease forwards; }
+  .animate-in:nth-child(1) { animation-delay: 0.05s; }
+  .animate-in:nth-child(2) { animation-delay: 0.12s; }
+  .animate-in:nth-child(3) { animation-delay: 0.19s; }
+  .animate-in:nth-child(4) { animation-delay: 0.26s; }
+  .animate-in:nth-child(5) { animation-delay: 0.33s; }
+
+  .history-section { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Error state */
+  .error-panel {
+    background: var(--bg2); border: 1px solid rgba(239,68,68,0.3);
+    border-radius: var(--radius-lg); padding: 2rem; text-align: center;
+  }
+  .error-panel p.error-title { color: var(--red); font-family: var(--font-mono); font-size: 0.85rem; }
+  .error-panel p.error-detail { color: var(--text3); font-size: 0.78rem; margin-top: 0.5rem; }
+</style>
 </head>
 <body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <span class="logo-text">AI<span>Decide</span></span>
+  </div>
+  <span class="header-badge">LIVE &mdash; Claude &bull; Ollama &bull; Local</span>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <p class="hero-eyebrow">AI Decision Simulator &mdash; B.Tech CSE Project</p>
+    <h1>Simulate decisions.<br>Understand <em>outcomes</em>.</h1>
+    <p>Configure your scenario, set constraints, and let AI analyze multiple strategic outcomes with risk scoring and confidence metrics.</p>
+  </div>
+
+  <div class="main-grid">
+    <!-- LEFT: INPUT PANEL -->
+    <div>
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-header-dot" style="background: #3ecf8e;"></div>
+          <span class="panel-title">Scenario Configuration</span>
+        </div>
+        <div class="panel-body">
+
+          <div class="form-section">
+            <div class="section-label">Domain</div>
+            <div class="field">
+              <label for="domain">Decision domain</label>
+              <select id="domain">
+                <option value="business">Business Strategy</option>
+                <option value="finance">Financial Management</option>
+                <option value="healthcare">Healthcare Resource Allocation</option>
+                <option value="education">Education Planning</option>
+                <option value="technology">Technology Investment</option>
+                <option value="risk">Risk Management</option>
+              </select>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="form-section">
+            <div class="section-label">Core Parameters</div>
+
+            <div class="field">
+              <label for="scenario">Describe your scenario</label>
+              <textarea id="scenario" placeholder="e.g. Should we expand to a new market in Q3, given budget constraints and current growth?" rows="3"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Budget (₹ Lakhs)</label>
+              <div class="slider-wrap">
+                <input type="range" id="budget" min="1" max="100" value="30" step="1">
+                <span class="slider-val" id="budget-val">30L</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Risk tolerance</label>
+              <div class="slider-wrap">
+                <input type="range" id="risk" min="1" max="10" value="5" step="1">
+                <span class="slider-val" id="risk-val">5</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Time horizon (weeks)</label>
+              <div class="slider-wrap">
+                <input type="range" id="time" min="1" max="52" value="12" step="1">
+                <span class="slider-val" id="time-val">12w</span>
+              </div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="form-section">
+            <div class="section-label">Priority Focus</div>
+            <div class="radio-cards" id="priority-cards">
+              <label class="radio-card active" data-val="growth">
+                <input type="radio" name="priority" value="growth" checked>
+                <div class="radio-dot"></div>
+                <span class="radio-label">Growth</span>
+              </label>
+              <label class="radio-card" data-val="stability">
+                <input type="radio" name="priority" value="stability">
+                <div class="radio-dot"></div>
+                <span class="radio-label">Stability</span>
+              </label>
+              <label class="radio-card" data-val="efficiency">
+                <input type="radio" name="priority" value="efficiency">
+                <div class="radio-dot"></div>
+                <span class="radio-label">Efficiency</span>
+              </label>
+              <label class="radio-card" data-val="innovation">
+                <input type="radio" name="priority" value="innovation">
+                <div class="radio-dot"></div>
+                <span class="radio-label">Innovation</span>
+              </label>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <!-- 3-ENGINE TOGGLE -->
+          <div class="form-section">
+            <div class="section-label">AI Engine</div>
+            <div class="engine-toggle" id="engine-toggle">
+              <div class="engine-card active" data-engine="anthropic" onclick="setEngine('anthropic')">
+                <span class="engine-icon">🧠</span>
+                <span class="engine-name">Claude</span>
+                <span class="engine-desc">Best quality</span>
+              </div>
+              <div class="engine-card" data-engine="ollama" onclick="setEngine('ollama')">
+                <span class="engine-icon">🦙</span>
+                <span class="engine-name">Ollama</span>
+                <span class="engine-desc">Local LLM</span>
+              </div>
+              <div class="engine-card" data-engine="local" onclick="setEngine('local')">
+                <span class="engine-icon">⚡</span>
+                <span class="engine-name">Rule Engine</span>
+                <span class="engine-desc">Instant, free</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ollama model selector (shown only when Ollama engine selected) -->
+          <div class="field" id="ollama-model-field" style="display:none;margin-bottom:0.85rem;">
+            <label for="ollama-model">Ollama model</label>
+            <select id="ollama-model">
+              <option value="llama3">llama3</option>
+              <option value="llama3.1">llama3.1</option>
+              <option value="mistral">mistral</option>
+              <option value="phi3">phi3</option>
+              <option value="gemma2">gemma2</option>
+            </select>
+          </div>
+
+          <button class="btn-simulate" id="simulate-btn" onclick="runSimulation()">
+            Run Simulation &rarr;
+          </button>
+
+          <div class="history-section" id="history-section" style="display:none;">
+            <div class="section-label">Recent simulations</div>
+            <div class="history-row" id="history-row"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESULTS PANEL -->
+    <div class="results-panel" id="results-panel">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+          </svg>
+        </div>
+        <h3>Ready to simulate</h3>
+        <p>Configure your scenario parameters and click Run Simulation to get AI-powered decision analysis.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-text">AI Decision Simulator &mdash; Nakul (23-CSE-5305) &amp; Deepanshu (24-CSE-5351) &mdash; BRCM COET</span>
+  <span class="footer-text">Guide: <a href="#">Ms. Jyoti</a> | CSE Dept.</span>
+</footer>
+
+<script>
+// ── Slider bindings ───────────────────────────────────────────────────────────
+document.getElementById('budget').addEventListener('input', e => {
+  document.getElementById('budget-val').textContent = e.target.value + 'L';
+});
+document.getElementById('risk').addEventListener('input', e => {
+  document.getElementById('risk-val').textContent = e.target.value;
+});
+document.getElementById('time').addEventListener('input', e => {
+  document.getElementById('time-val').textContent = e.target.value + 'w';
+});
+
+// ── Priority radio cards ──────────────────────────────────────────────────────
+document.querySelectorAll('#priority-cards .radio-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('#priority-cards .radio-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+  });
+});
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let chartInstance = null;
+let dbHistory     = [];
+let engineMode    = 'anthropic';   // 'anthropic' | 'ollama' | 'local'
+
+// ── Engine toggle ─────────────────────────────────────────────────────────────
+function setEngine(mode) {
+  engineMode = mode;
+  document.querySelectorAll('.engine-card').forEach(card => {
+    card.classList.toggle('active', card.dataset.engine === mode);
+  });
+  // Show Ollama model selector only when Ollama is chosen
+  document.getElementById('ollama-model-field').style.display =
+    mode === 'ollama' ? 'block' : 'none';
+}
+
+// ── Load DB history on page load ──────────────────────────────────────────────
+async function loadHistory() {
+  try {
+    const resp = await fetch('/api/history');
+    if (!resp.ok) return;
+    dbHistory = await resp.json();
+    renderHistoryChips();
+  } catch {}
+}
+
+function renderHistoryChips() {
+  if (!dbHistory.length) return;
+  const section = document.getElementById('history-section');
+  const row     = document.getElementById('history-row');
+  section.style.display = 'block';
+  row.innerHTML = dbHistory.map(h => `
+    <span class="history-chip" onclick="loadHistorySim(${h.id})">
+      ${h.domain} / R${h.risk} / ₹${h.budget}L
+    </span>`).join('');
+}
+
+async function loadHistorySim(id) {
+  try {
+    const resp = await fetch(`/api/history/${id}`);
+    if (!resp.ok) return;
+    const data = await resp.json();
+    if (data.result) {
+      const p = {
+        domain: data.domain, scenario: data.scenario,
+        budget: data.budget, risk: data.risk,
+        time: data.time_weeks, priority: data.priority
+      };
+      data.result._engine  = data.engine_used || 'anthropic';
+      data.result._latency = data.latency_ms  || 0;
+      renderResults(data.result, p, document.getElementById('results-panel'));
+    }
+  } catch {}
+}
+
+// ── Build params payload ──────────────────────────────────────────────────────
+function getParams() {
+  const priorityCard = document.querySelector('#priority-cards .radio-card.active');
+  return {
+    domain:   document.getElementById('domain').value,
+    scenario: document.getElementById('scenario').value.trim() || 'General strategic expansion decision',
+    budget:   parseInt(document.getElementById('budget').value),
+    risk:     parseInt(document.getElementById('risk').value),
+    time:     parseInt(document.getElementById('time').value),
+    priority: priorityCard?.dataset.val || 'growth',
+    engine:   engineMode,
+    model:    document.getElementById('ollama-model')?.value || 'llama3'
+  };
+}
+
+// ── Error display helper ──────────────────────────────────────────────────────
+function showError(panel, message) {
+  panel.innerHTML = `
+    <div class="error-panel animate-in">
+      <p class="error-title">Simulation failed.</p>
+      <p class="error-detail">${message}</p>
+    </div>
+  `;
+}
+
+// ── Main simulation ───────────────────────────────────────────────────────────
+async function runSimulation() {
+  const btn   = document.getElementById('simulate-btn');
+  const panel = document.getElementById('results-panel');
+  const p     = getParams();
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Analyzing...';
+  document.getElementById('empty-state')?.remove();
+
+  const engineLabels = {
+    anthropic: 'Calling Hybrid AI (Claude + rule engine)...',
+    ollama:    'Running local Ollama LLM...',
+    local:     'Running rule-based decision engine...'
+  };
+
+  panel.innerHTML = `
+    <div class="stream-area animate-in" id="stream-area">
+      <div class="stream-header">
+        <span class="stream-title">AI Processing</span>
+        <span class="live-dot">Streaming</span>
+      </div>
+      <div class="stream-body" id="stream-body">${engineLabels[engineMode] || 'Initializing...'}</div>
+    </div>
+  `;
+
+  let result = null;
+
+  try {
+    const resp = await fetch('/api/simulate', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(p)
+    });
+
+    // Non-2xx → read error JSON and throw
+    if (!resp.ok) {
+      let errMsg = `HTTP ${resp.status}`;
+      try { const errBody = await resp.json(); errMsg = errBody.error || errMsg; } catch {}
+      throw new Error(errMsg);
+    }
+
+    const reader     = resp.body.getReader();
+    const decoder    = new TextDecoder();
+    const streamBody = document.getElementById('stream-body');
+    let   buf        = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+
+      const lines = buf.split('\n');
+      buf = lines.pop();   // keep incomplete line in buffer
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const payload = line.slice(6).trim();
+        if (!payload) continue;
+
+        let msg;
+        try { msg = JSON.parse(payload); }
+        catch { continue; }
+
+        // ── SSE error from backend ────────────────────────────────────────
+        if (msg.error) {
+          throw new Error(msg.error);
+        }
+
+        // ── Streaming delta (Anthropic token) ─────────────────────────────
+        if (msg.delta) {
+          streamBody.textContent += msg.delta;
+        }
+
+        // ── Final result ──────────────────────────────────────────────────
+        if (msg.done && msg.result) {
+          result          = msg.result;
+          result._engine  = msg.engine || 'anthropic';
+          result._latency = msg.latency_ms || 0;
+        }
+      }
+    }
+
+    if (!result) throw new Error('No result received from server.');
+
+    renderResults(result, p, panel);
+    await loadHistory();
+
+  } catch (err) {
+    showError(panel, err.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Run Simulation &rarr;';
+  }
+}
+
+loadHistory();
+
+// ── Render results ────────────────────────────────────────────────────────────
+function renderResults(r, p, panel) {
+  const riskColors    = { Low: '#3ecf8e', Medium: '#f5a623', High: '#ef4444', Critical: '#a855f7' };
+  const outcomeColors = { green: '#3ecf8e', amber: '#f5a623', red: '#ef4444' };
+  const riskColor     = riskColors[r.riskLevel] || '#f5a623';
+
+  const engineLabel = {
+    local:           'Rule Engine',
+    ollama:          'Ollama LLM',
+    ollama_fallback: 'Ollama → Fallback',
+    local_fallback:  'AI → Fallback',
+    anthropic:       'Claude AI'
+  }[r._engine] || 'Claude AI';
+
+  const engineColor = {
+    local:           'var(--amber)',
+    ollama:          'var(--teal)',
+    ollama_fallback: 'var(--red)',
+    local_fallback:  'var(--red)',
+    anthropic:       'var(--green)'
+  }[r._engine] || 'var(--green)';
+
+  panel.innerHTML = `
+    <!-- ENGINE BADGE -->
+    <div style="display:flex;justify-content:flex-end;margin-bottom:-0.5rem;">
+      <span style="font-family:var(--font-mono);font-size:0.65rem;padding:3px 10px;border-radius:12px;
+        background:${engineColor}18;color:${engineColor};border:1px solid ${engineColor}40;">
+        ${engineLabel}
+      </span>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics-row animate-in" style="grid-template-columns:repeat(4,1fr);">
+      <div class="metric-card">
+        <div class="metric-label">Confidence</div>
+        <div class="metric-value" style="color:var(--accent);">${r.confidenceScore}%</div>
+        <span class="metric-badge" style="background:rgba(79,142,247,0.12);color:var(--accent);">AI-scored</span>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Risk Level</div>
+        <div class="metric-value" style="color:${riskColor};">${r.riskLevel}</div>
+        <span class="metric-badge" style="background:rgba(255,255,255,0.05);color:var(--text3);">Risk ${p.risk}/10</span>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Expected ROI</div>
+        <div class="metric-value" style="color:var(--green);">${r.expectedROI}</div>
+        <span class="metric-badge" style="background:rgba(62,207,142,0.1);color:var(--green);">${p.time}w horizon</span>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Latency</div>
+        <div class="metric-value" style="color:var(--teal);">${r._latency > 999 ? (r._latency/1000).toFixed(1)+'s' : r._latency+'ms'}</div>
+        <span class="metric-badge" style="background:rgba(45,212,191,0.1);color:var(--teal);">${engineLabel}</span>
+      </div>
+    </div>
+
+    <!-- INSIGHT -->
+    <div class="insight-box animate-in">
+      <div class="insight-icon">
+        <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <div class="insight-text"><strong>AI Insight:</strong> ${r.insight}</div>
+    </div>
+
+    <!-- OUTCOMES -->
+    <div class="panel animate-in">
+      <div class="panel-header">
+        <div class="panel-header-dot" style="background:var(--accent);"></div>
+        <span class="panel-title">Decision Outcomes</span>
+      </div>
+      <div class="panel-body">
+        <div class="outcomes-list">
+          ${r.outcomes.map(o => `
+            <div class="outcome-item">
+              <div class="outcome-rank">#${o.rank}</div>
+              <div class="outcome-body">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.3rem;">
+                  <div class="outcome-title">${o.title}</div>
+                  <span class="outcome-badge" style="background:${outcomeColors[o.color] || '#4f8ef7'}22;color:${outcomeColors[o.color] || '#4f8ef7'};">${o.badge}</span>
+                </div>
+                <div class="outcome-desc">${o.description}</div>
+                <div class="outcome-score-wrap">
+                  <div class="outcome-bar">
+                    <div class="outcome-bar-fill" style="width:${o.probability}%;background:${outcomeColors[o.color] || '#4f8ef7'};"></div>
+                  </div>
+                  <span class="outcome-pct">${o.probability}%</span>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-card animate-in">
+      <div class="chart-tabs">
+        <div class="chart-tab active" onclick="switchTab('radar', this)">Radar Analysis</div>
+        <div class="chart-tab" onclick="switchTab('bar', this)">Outcome Scores</div>
+        <div class="chart-tab" onclick="switchTab('risks', this)">Risk Factors</div>
+      </div>
+      <div class="chart-body">
+        <div class="tab-content active" id="tab-radar">
+          <canvas id="radarChart" height="240"></canvas>
+        </div>
+        <div class="tab-content" id="tab-bar">
+          <canvas id="barChart" height="240"></canvas>
+        </div>
+        <div class="tab-content" id="tab-risks">
+          <div style="padding:0.5rem 0;">
+            ${(r.keyRisks || []).map((risk, i) => `
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:0.7rem 0;${i > 0 ? 'border-top:1px solid var(--border);' : ''}">
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--red);min-width:20px;margin-top:1px;">R${i+1}</span>
+                <span style="font-size:0.85rem;color:var(--text2);">${risk}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="panel animate-in">
+      <div class="panel-header">
+        <div class="panel-header-dot" style="background:var(--teal);"></div>
+        <span class="panel-title">Executive Summary</span>
+      </div>
+      <div class="panel-body">
+        <p style="font-size:0.88rem;color:var(--text2);line-height:1.75;">${r.summary}</p>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;gap:1.5rem;flex-wrap:wrap;">
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Budget: <span style="color:var(--text);">₹${p.budget}L</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Horizon: <span style="color:var(--text);">${p.time} weeks</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Priority: <span style="color:var(--text);">${p.priority}</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Domain: <span style="color:var(--text);">${p.domain}</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Engine: <span style="color:${engineColor};">${engineLabel}</span></span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  setTimeout(() => {
+    renderRadarChart(r.radarData);
+    renderBarChart(r.outcomes);
+  }, 100);
+}
+
+function switchTab(tab, el) {
+  document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + tab)?.classList.add('active');
+}
+
+function renderRadarChart(data) {
+  const ctx = document.getElementById('radarChart');
+  if (!ctx) return;
+  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+  chartInstance = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: data.labels,
+      datasets: [{
+        label: 'Decision Score',
+        data: data.values,
+        borderColor: '#4f8ef7',
+        backgroundColor: 'rgba(79,142,247,0.12)',
+        borderWidth: 2,
+        pointBackgroundColor: '#4f8ef7',
+        pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { display: false },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          angleLines: { color: 'rgba(255,255,255,0.08)' },
+          pointLabels: { color: '#9ba3b8', font: { size: 11, family: 'DM Mono' } }
+        }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+function renderBarChart(outcomes) {
+  const ctx = document.getElementById('barChart');
+  if (!ctx) return;
+  const colors = outcomes.map(o => o.color === 'green' ? '#3ecf8e' : o.color === 'amber' ? '#f5a623' : '#ef4444');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: outcomes.map(o => o.title.substring(0, 20) + (o.title.length > 20 ? '…' : '')),
+      datasets: [{
+        data: outcomes.map(o => o.probability),
+        backgroundColor: colors.map(c => c + '33'),
+        borderColor: colors,
+        borderWidth: 1.5,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#9ba3b8', font: { size: 10 } } },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          ticks: { color: '#9ba3b8', font: { size: 10 } },
+          min: 0, max: 100
+        }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+</script>
 </body>
 </html>
