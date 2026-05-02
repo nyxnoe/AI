@@ -1,0 +1,4780 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.gitignore
+ai.css
+AI.html
+ai.js
+app.py
+data_processor.py
+database.db
+database.py
+decision_engine.py
+ollama_engine.py
+static/script.js
+static/style.css
+templates/ai-decision-simulator.html
+templates/index.html
+templates/result.html
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".gitignore">
+project_dump.txt
+</file>
+
+<file path="ai.css">
+:root {
+    --bg: #0f172a;
+    --surface: #111827;
+    --card: #1f2937;
+    --card-alt: #111827;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --border: rgba(148, 163, 184, 0.2);
+    --accent: #38bdf8;
+    --accent-strong: #22d3ee;
+    --success: #34d399;
+    --warning: #fbbf24;
+    --danger: #f87171;
+    --shadow: 0 18px 50px rgba(15, 23, 42, 0.28);
+    --radius: 18px;
+    --radius-sm: 12px;
+    --transition: 200ms ease;
+    font-family: "Inter", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    background: radial-gradient(circle at top, rgba(56, 189, 248, 0.12), transparent 25%),
+                            radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.08), transparent 20%);
+    color: var(--text-primary);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+img,
+svg,
+video,
+canvas {
+    max-width: 100%;
+    display: block;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+input,
+textarea,
+select {
+    outline: none;
+    appearance: none;
+    border-radius: 0;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container {
+    width: min(1240px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.page-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: minmax(280px, 320px) 1fr;
+    align-items: start;
+}
+
+.page-grid.full {
+    grid-template-columns: 1fr;
+}
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    letter-spacing: -0.04em;
+}
+
+.header p {
+    margin: 0;
+    color: var(--text-secondary);
+}
+
+.panel {
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    backdrop-filter: blur(10px);
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.18);
+    border-radius: var(--radius-sm);
+    padding: 1.5rem;
+}
+
+.card.hero {
+    background: linear-gradient(180deg, rgba(56, 189, 248, 0.16), rgba(15, 23, 42, 0.88));
+    border-color: rgba(56, 189, 248, 0.25);
+}
+
+.card h2,
+.section-title {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+}
+
+.card small,
+.caption {
+    color: var(--text-secondary);
+}
+
+.button,
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.95rem 1.3rem;
+    background: var(--accent);
+    color: #0f172a;
+    border-radius: 999px;
+    font-weight: 600;
+    transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
+}
+
+.button:hover,
+.btn:hover {
+    transform: translateY(-1px);
+    background: var(--accent-strong);
+    box-shadow: 0 18px 36px rgba(56, 189, 248, 0.22);
+}
+
+.button.secondary,
+.btn.secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+.button.outline,
+.btn.outline {
+    background: transparent;
+    border: 1px solid rgba(203, 213, 225, 0.18);
+    color: var(--text-secondary);
+}
+
+.form-group {
+    display: grid;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+}
+
+label {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+    border: 1px solid rgba(203, 213, 225, 0.12);
+    padding: 0.95rem 1rem;
+    border-radius: 14px;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: rgba(56, 189, 248, 0.6);
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
+}
+
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius-sm);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+    background: var(--card-alt);
+    color: var(--text-secondary);
+}
+
+th,
+td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+    text-align: left;
+}
+
+th {
+    color: var(--text-primary);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+tbody tr:hover {
+    background: rgba(148, 163, 184, 0.08);
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.12);
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-success {
+    color: #a7f3d0;
+}
+
+.status-warning {
+    color: #fde68a;
+}
+
+.status-danger {
+    color: #fecaca;
+}
+
+.stats-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.metric {
+    padding: 1.3rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: var(--radius-sm);
+}
+
+.metric strong {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+    color: var(--text-primary);
+}
+
+.metric span {
+    color: var(--text-secondary);
+}
+
+.help-block {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.alert {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    color: var(--text-secondary);
+}
+
+.alert.success {
+    border-color: rgba(52, 211, 153, 0.3);
+    background: rgba(52, 211, 153, 0.08);
+}
+
+.alert.warning {
+    border-color: rgba(251, 191, 36, 0.3);
+    background: rgba(251, 191, 36, 0.08);
+}
+
+.alert.danger {
+    border-color: rgba(248, 113, 113, 0.3);
+    background: rgba(248, 113, 113, 0.08);
+}
+
+.footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+    color: var(--text-secondary);
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 960px) {
+    .page-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 1.25rem 0;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card,
+    .panel {
+        padding: 1.25rem;
+    }
+
+    th,
+    td {
+        padding: 0.85rem;
+    }
+}
+:root {
+    --space-depth: 1400px;
+    --glow-surface: rgba(56, 189, 248, 0.12);
+    --line-grid: rgba(56, 189, 248, 0.06);
+    --depth-shadow: 0 24px 80px rgba(15, 23, 42, 0.24);
+    --spin-duration: 18s;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.16), transparent 12%),
+        radial-gradient(circle at 85% 20%, rgba(16, 185, 129, 0.1), transparent 18%),
+        linear-gradient(120deg, rgba(15, 23, 42, 0.94), rgba(15, 23, 42, 0.98));
+    z-index: -2;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(0deg, rgba(255, 255, 255, 0.02), transparent 60%),
+        repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(56, 189, 248, 0.04) 1px, rgba(56, 189, 248, 0.04) 24px);
+    mix-blend-mode: overlay;
+    z-index: -1;
+}
+
+.scene {
+    perspective: var(--space-depth);
+    perspective-origin: 50% 35%;
+}
+
+.scene-inner {
+    transform-style: preserve-3d;
+    transition: transform var(--transition);
+}
+
+.scene:hover .scene-inner {
+    transform: rotateX(7deg) rotateY(-10deg);
+}
+
+.scene-layer {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(56, 189, 248, 0.12), rgba(15, 23, 42, 0.9));
+    box-shadow: var(--depth-shadow);
+    pointer-events: none;
+}
+
+.scene-layer:nth-child(1) {
+    transform: translateZ(4px);
+}
+
+.scene-layer:nth-child(2) {
+    transform: translateZ(-8px) scale(0.98);
+    filter: blur(0.6px);
+}
+
+.scene-layer:nth-child(3) {
+    transform: translateZ(-16px) scale(0.96);
+    opacity: 0.7;
+}
+
+.scene-card {
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: transform var(--transition);
+}
+
+.scene-card:hover {
+    transform: translate3d(0, -4px, 12px) rotateY(2deg);
+}
+
+.scene-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.1), transparent 18%);
+    pointer-events: none;
+}
+
+.scene-card .card-content {
+    position: relative;
+    z-index: 1;
+}
+
+.glow-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.4;
+}
+
+.neon-halo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 260px;
+    height: 260px;
+    transform: translate(-50%, -50%) translateZ(-96px);
+    border-radius: 50%;
+    border: 1px solid rgba(56, 189, 248, 0.18);
+    filter: blur(1px);
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+    50% {
+        transform: translate3d(0, -10px, 6px);
+    }
+}
+
+.float-anim {
+    animation: float 10s ease-in-out infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.orbit-ring {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid rgba(56, 189, 248, 0.06);
+    animation: spin var(--spin-duration) linear infinite;
+}
+
+.text-glow {
+    text-shadow: 0 0 16px rgba(56, 189, 248, 0.25), 0 0 40px rgba(56, 189, 248, 0.08);
+}
+
+@media (max-width: 640px) {
+    .scene {
+        perspective: 900px;
+    }
+
+    .scene-card:hover {
+        transform: none;
+    }
+
+    .glow-grid {
+        opacity: 0.2;
+    }
+}
+</file>
+
+<file path="ai.js">
+
+</file>
+
+<file path="data_processor.py">
+"""
+data_processor.py
+-----------------
+Validates and sanitises raw input from the simulation form
+before it reaches the decision engine or the Anthropic API.
+"""
+
+from __future__ import annotations
+import re
+from typing import Any
+
+
+# ── Constants ─────────────────────────────────────────────────────────────────
+
+VALID_DOMAINS = {
+    "business",
+    "finance",
+    "healthcare",
+    "education",
+    "technology",
+    "risk",
+}
+
+VALID_PRIORITIES = {"growth", "stability", "efficiency", "innovation"}
+
+BUDGET_MIN, BUDGET_MAX   = 1, 500      # ₹ Lakhs
+RISK_MIN,   RISK_MAX     = 1, 10
+TIME_MIN,   TIME_MAX     = 1, 104      # weeks
+
+
+# ── Public API ────────────────────────────────────────────────────────────────
+
+class ValidationError(ValueError):
+    """Raised when input fails validation."""
+
+
+def process_input(raw: dict[str, Any]) -> dict[str, Any]:
+    """
+    Validate and clean raw form data.
+
+    Parameters
+    ----------
+    raw : dict
+        Keys expected: domain, scenario, budget, risk, time, priority
+
+    Returns
+    -------
+    dict with cleaned, type-coerced values.
+
+    Raises
+    ------
+    ValidationError on bad input.
+    """
+    errors: list[str] = []
+
+    # ── domain ────────────────────────────────────────────────────────────────
+    domain = str(raw.get("domain", "")).strip().lower()
+    if domain not in VALID_DOMAINS:
+        errors.append(f"domain must be one of {sorted(VALID_DOMAINS)}")
+
+    # ── scenario ──────────────────────────────────────────────────────────────
+    scenario = str(raw.get("scenario", "")).strip()
+    scenario = _sanitise_text(scenario)
+    if not scenario:
+        scenario = "General strategic decision"
+    if len(scenario) > 600:
+        scenario = scenario[:600]
+
+    # ── budget ────────────────────────────────────────────────────────────────
+    budget = _coerce_int(raw.get("budget"), "budget", errors)
+    if budget is not None:
+        budget = _clamp(budget, BUDGET_MIN, BUDGET_MAX, "budget", errors)
+
+    # ── risk ──────────────────────────────────────────────────────────────────
+    risk = _coerce_int(raw.get("risk"), "risk", errors)
+    if risk is not None:
+        risk = _clamp(risk, RISK_MIN, RISK_MAX, "risk", errors)
+
+    # ── time ──────────────────────────────────────────────────────────────────
+    time_weeks = _coerce_int(raw.get("time"), "time", errors)
+    if time_weeks is not None:
+        time_weeks = _clamp(time_weeks, TIME_MIN, TIME_MAX, "time", errors)
+
+    # ── priority ──────────────────────────────────────────────────────────────
+    priority = str(raw.get("priority", "")).strip().lower()
+    if priority not in VALID_PRIORITIES:
+        errors.append(f"priority must be one of {sorted(VALID_PRIORITIES)}")
+
+    if errors:
+        raise ValidationError("; ".join(errors))
+
+    return {
+        "domain":   domain,
+        "scenario": scenario,
+        "budget":   budget,
+        "risk":     risk,
+        "time":     time_weeks,
+        "priority": priority,
+    }
+
+
+def summarise(params: dict[str, Any]) -> str:
+    """Return a one-line human-readable summary of the parameters."""
+    return (
+        f"{params['domain'].title()} | "
+        f"₹{params['budget']}L budget | "
+        f"Risk {params['risk']}/10 | "
+        f"{params['time']}w | "
+        f"{params['priority'].title()} priority"
+    )
+
+
+# ── Internal helpers ──────────────────────────────────────────────────────────
+
+def _sanitise_text(text: str) -> str:
+    """Strip HTML tags and control characters from free-text input."""
+    text = re.sub(r"<[^>]+>", "", text)          # strip HTML
+    text = re.sub(r"[\x00-\x08\x0b-\x1f\x7f]", "", text)  # control chars
+    return text.strip()
+
+
+def _coerce_int(value: Any, field: str, errors: list[str]) -> int | None:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        errors.append(f"{field} must be an integer")
+        return None
+
+
+def _clamp(value: int, lo: int, hi: int, field: str, errors: list[str]) -> int:
+    if value < lo or value > hi:
+        errors.append(f"{field} must be between {lo} and {hi}, got {value}")
+        return max(lo, min(hi, value))   # clamp anyway so pipeline can continue
+    return value
+</file>
+
+<file path="database.py">
+"""
+database.py
+-----------
+SQLite helper layer for the AI Decision Simulator.
+Single source of truth for all DB logic — never duplicated in app.py.
+"""
+
+import json
+import sqlite3
+import logging
+
+logger = logging.getLogger(__name__)
+
+SCHEMA = """
+CREATE TABLE IF NOT EXISTS simulations (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    domain      TEXT    NOT NULL,
+    scenario    TEXT    NOT NULL,
+    budget      INTEGER NOT NULL,
+    risk        INTEGER NOT NULL,
+    time_weeks  INTEGER NOT NULL,
+    priority    TEXT    NOT NULL,
+    engine_used TEXT    NOT NULL DEFAULT 'anthropic',
+    result_json TEXT,
+    risk_level  TEXT,
+    confidence  INTEGER,
+    latency_ms  INTEGER DEFAULT 0,
+    created_at  REAL    DEFAULT (strftime('%s','now'))
+)
+"""
+
+# Migration: add latency_ms to existing DBs that lack it
+_MIGRATE_LATENCY = """
+ALTER TABLE simulations ADD COLUMN latency_ms INTEGER DEFAULT 0
+"""
+
+
+def get_connection(db_path: str) -> sqlite3.Connection:
+    conn = sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def init_schema(conn: sqlite3.Connection) -> None:
+    conn.execute(SCHEMA)
+    conn.commit()
+    # Safe migration for existing databases
+    cols = [r[1] for r in conn.execute("PRAGMA table_info(simulations)").fetchall()]
+    if "latency_ms" not in cols:
+        try:
+            conn.execute(_MIGRATE_LATENCY)
+            conn.commit()
+            logger.info("Migrated: added latency_ms column")
+        except Exception as e:
+            logger.warning(f"Migration skipped: {e}")
+    logger.info("Database schema ready.")
+
+
+def insert_simulation(
+    conn: sqlite3.Connection,
+    params: dict,
+    result: dict | None,
+    engine_used: str,
+    latency_ms: int = 0,
+) -> int:
+    cursor = conn.execute(
+        """INSERT INTO simulations
+           (domain, scenario, budget, risk, time_weeks, priority,
+            engine_used, result_json, risk_level, confidence, latency_ms)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+        (
+            params["domain"],
+            params["scenario"],
+            params["budget"],
+            params["risk"],
+            params["time"],
+            params["priority"],
+            engine_used,
+            json.dumps(result) if result else None,
+            result.get("riskLevel")       if result else None,
+            result.get("confidenceScore") if result else None,
+            latency_ms,
+        ),
+    )
+    conn.commit()
+    return cursor.lastrowid
+
+
+def fetch_history(conn: sqlite3.Connection, limit: int = 20) -> list[dict]:
+    rows = conn.execute(
+        """SELECT id, domain, scenario, budget, risk, time_weeks, priority,
+                  engine_used, risk_level, confidence, latency_ms, created_at
+           FROM simulations
+           ORDER BY created_at DESC
+           LIMIT ?""",
+        (limit,),
+    ).fetchall()
+    return [dict(r) for r in rows]
+
+
+def fetch_simulation(conn: sqlite3.Connection, sim_id: int) -> dict | None:
+    row = conn.execute("SELECT * FROM simulations WHERE id = ?", (sim_id,)).fetchone()
+    if not row:
+        return None
+    d = dict(row)
+    if d.get("result_json"):
+        try:
+            d["result"] = json.loads(d["result_json"])
+        except Exception:
+            d["result"] = None
+    return d
+
+
+def delete_simulation(conn: sqlite3.Connection, sim_id: int) -> bool:
+    cursor = conn.execute("DELETE FROM simulations WHERE id = ?", (sim_id,))
+    conn.commit()
+    return cursor.rowcount > 0
+</file>
+
+<file path="decision_engine.py">
+"""
+decision_engine.py
+------------------
+Rule-based decision scoring used as:
+  1. A fast synchronous fallback when the Anthropic API is unavailable.
+  2. Pre-flight enrichment that adds derived fields to the API prompt.
+  3. Post-processing validation of AI-returned scores.
+
+The logic maps to the synopsis methodology:
+  Step 3 – AI/logic-based system analyses input
+  Step 4 – Multiple possible results are generated
+"""
+
+from __future__ import annotations
+from dataclasses import dataclass, field
+from typing import Any
+
+
+# ── Data classes ──────────────────────────────────────────────────────────────
+
+@dataclass
+class Outcome:
+    rank:        int
+    title:       str
+    description: str
+    probability: int        # 0-100
+    color:       str        # green | amber | red
+    badge:       str
+
+
+@dataclass
+class DecisionResult:
+    summary:        str
+    risk_level:     str     # Low | Medium | High | Critical
+    confidence:     int     # 0-100
+    expected_roi:   str
+    outcomes:       list[Outcome] = field(default_factory=list)
+    key_risks:      list[str]     = field(default_factory=list)
+    insight:        str = ""
+    radar_labels:   list[str]     = field(default_factory=lambda: [
+        "Feasibility", "ROI Potential", "Risk Control",
+        "Time Efficiency", "Alignment"
+    ])
+    radar_values:   list[int]     = field(default_factory=list)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "summary":       self.summary,
+            "riskLevel":     self.risk_level,
+            "confidenceScore": self.confidence,
+            "expectedROI":   self.expected_roi,
+            "outcomes": [
+                {
+                    "rank":        o.rank,
+                    "title":       o.title,
+                    "description": o.description,
+                    "probability": o.probability,
+                    "color":       o.color,
+                    "badge":       o.badge,
+                }
+                for o in self.outcomes
+            ],
+            "radarData": {
+                "labels": self.radar_labels,
+                "values": self.radar_values,
+            },
+            "insight":   self.insight,
+            "keyRisks":  self.key_risks,
+        }
+
+
+# ── Main entry point ──────────────────────────────────────────────────────────
+
+def make_decision(params: dict[str, Any]) -> DecisionResult:
+    """
+    Pure rule-based decision engine.
+
+    Parameters
+    ----------
+    params : dict
+        Cleaned output from data_processor.process_input()
+
+    Returns
+    -------
+    DecisionResult
+    """
+    budget   = params["budget"]
+    risk     = params["risk"]
+    time     = params["time"]
+    priority = params["priority"]
+    domain   = params["domain"]
+
+    risk_level  = _classify_risk(budget, risk, time)
+    confidence  = _score_confidence(budget, risk, time, priority)
+    roi         = _estimate_roi(budget, risk, time, priority)
+    outcomes    = _generate_outcomes(budget, risk, time, priority, domain)
+    key_risks   = _list_risks(risk, budget, time, domain)
+    insight     = _generate_insight(budget, risk, time, priority, domain)
+    radar       = _radar_scores(budget, risk, time, priority)
+    summary     = _make_summary(domain, budget, risk, time, priority, risk_level)
+
+    return DecisionResult(
+        summary      = summary,
+        risk_level   = risk_level,
+        confidence   = confidence,
+        expected_roi = roi,
+        outcomes     = outcomes,
+        key_risks    = key_risks,
+        insight      = insight,
+        radar_values = radar,
+    )
+
+
+# ── Scoring helpers ───────────────────────────────────────────────────────────
+
+def _classify_risk(budget: int, risk: int, time: int) -> str:
+    score = 0
+    if risk >= 8:      score += 3
+    elif risk >= 6:    score += 2
+    elif risk >= 4:    score += 1
+
+    if budget < 10:    score += 2
+    elif budget < 25:  score += 1
+
+    if time < 4:       score += 2
+    elif time < 8:     score += 1
+
+    if score >= 6:     return "Critical"
+    if score >= 4:     return "High"
+    if score >= 2:     return "Medium"
+    return "Low"
+
+
+def _score_confidence(budget: int, risk: int, time: int, priority: str) -> int:
+    base = 70
+    base += min(15, budget // 10)          # more budget → more confidence
+    base -= (risk - 5) * 2                 # higher risk → less confidence
+    base += min(8, time // 6)              # longer horizon → slightly more
+    if priority in ("stability", "efficiency"):
+        base += 4
+    return max(55, min(97, base))
+
+
+def _estimate_roi(budget: int, risk: int, time: int, priority: str) -> str:
+    low  = max(2, risk * 1.5 + time * 0.3)
+    high = low + budget * 0.15 + (10 - risk) * 1.2
+    if priority == "growth":
+        low  += 3
+        high += 6
+    elif priority == "stability":
+        low  -= 1
+        high -= 2
+    return f"{low:.0f}–{high:.0f}%"
+
+
+def _generate_outcomes(
+    budget: int, risk: int, time: int, priority: str, domain: str
+) -> list[Outcome]:
+    high_budget = budget >= 40
+    low_risk    = risk <= 4
+    long_time   = time >= 20
+
+    # Primary
+    if high_budget and low_risk:
+        primary = Outcome(1, "Aggressive Expansion",
+            "Leverage strong budget headroom with controlled risk appetite "
+            "to capture maximum market share. Execute in phased milestones "
+            "with quarterly review gates.",
+            probability=72, color="green", badge="Recommended")
+    elif priority == "stability":
+        primary = Outcome(1, "Steady-State Optimisation",
+            "Consolidate existing assets and improve operational efficiency "
+            "before any expansion. Prioritise cash-flow stability over "
+            "short-term gains.",
+            probability=68, color="green", badge="Recommended")
+    else:
+        primary = Outcome(1, "Balanced Growth Strategy",
+            "Distribute budget across core operations (60%) and new "
+            "initiatives (40%). Maintain a risk buffer equivalent to 15% "
+            "of total allocation.",
+            probability=65, color="green", badge="Recommended")
+
+    # Alternative
+    alt_prob = max(25, primary.probability - 18)
+    alternative = Outcome(2, "Pilot-First Approach",
+        f"Run a contained {min(time, 8)}-week pilot on the highest-confidence "
+        "initiative before committing full budget. Reduces exposure while "
+        "generating real-world validation data.",
+        probability=alt_prob, color="amber", badge="Alternative")
+
+    # Fallback
+    fallback = Outcome(3, "Capital Preservation Mode",
+        "Pause discretionary spend and redirect budget to risk mitigation "
+        "and compliance. Re-evaluate when external conditions improve or "
+        "more data is available.",
+        probability=max(10, 100 - primary.probability - alt_prob),
+        color="red", badge="Fallback")
+
+    return [primary, alternative, fallback]
+
+
+def _list_risks(risk: int, budget: int, time: int, domain: str) -> list[str]:
+    risks = []
+    if risk >= 7:
+        risks.append("High volatility exposure — market conditions could shift "
+                      "faster than the decision timeline allows.")
+    if budget < 20:
+        risks.append("Budget constraints may force mid-project scope cuts, "
+                      "undermining ROI projections.")
+    if time < 8:
+        risks.append("Compressed time horizon increases execution risk and "
+                      "limits contingency planning.")
+
+    domain_risks = {
+        "finance":    "Regulatory or interest-rate changes could affect return assumptions.",
+        "healthcare": "Compliance and approval cycles may extend beyond the planned horizon.",
+        "technology": "Rapid tech obsolescence could reduce the value of the chosen platform.",
+        "business":   "Competitor response may erode first-mover advantage faster than modelled.",
+        "education":  "Adoption resistance from stakeholders can delay measurable outcomes.",
+        "risk":       "Residual tail risks not captured in the model may materialise simultaneously.",
+    }
+    if domain in domain_risks:
+        risks.append(domain_risks[domain])
+
+    if not risks:
+        risks.append("No critical risk flags — maintain standard monitoring cadence.")
+
+    return risks[:3]
+
+
+def _generate_insight(
+    budget: int, risk: int, time: int, priority: str, domain: str
+) -> str:
+    if risk >= 7 and budget < 25:
+        return (f"High risk with a limited ₹{budget}L budget is a dangerous "
+                "combination. Consider de-risking at least one variable — "
+                "either increase the budget buffer or reduce scope before proceeding.")
+    if priority == "growth" and time < 6:
+        return ("A growth-oriented priority with fewer than 6 weeks is execution-heavy. "
+                "Identify one key metric to hit in week 1 and build momentum from there.")
+    if priority == "stability" and risk <= 3:
+        return ("Low-risk + stability focus suggests you can afford to be deliberate. "
+                "Use this window to document processes and build institutional knowledge.")
+    return (f"For a ₹{budget}L {domain} decision over {time} weeks, "
+            "allocate 20% of budget as a contingency reserve before committing "
+            "to any single outcome strategy.")
+
+
+def _radar_scores(budget: int, risk: int, time: int, priority: str) -> list[int]:
+    feasibility     = min(95, 50 + budget // 2 - risk * 2)
+    roi_potential   = min(95, 40 + risk * 4 + (5 if priority == "growth" else 0))
+    risk_control    = min(95, 80 - risk * 5 + (5 if priority == "stability" else 0))
+    time_efficiency = min(95, 40 + time)
+    alignment       = min(95, 60 + (10 if priority in ("growth", "innovation") else 5))
+
+    return [
+        max(30, feasibility),
+        max(30, roi_potential),
+        max(30, risk_control),
+        max(30, time_efficiency),
+        max(30, alignment),
+    ]
+
+
+def _make_summary(
+    domain: str, budget: int, risk: int, time: int, priority: str, risk_level: str
+) -> str:
+    return (
+        f"This {domain} decision involves a ₹{budget}L allocation over {time} weeks "
+        f"with a {priority}-focused objective and a {risk_level.lower()} risk profile. "
+        f"The analysis identifies three viable paths with distinct risk-return tradeoffs "
+        f"suited to risk tolerance level {risk}/10."
+    )
+</file>
+
+<file path="ollama_engine.py">
+"""
+ollama_engine.py
+----------------
+Wrapper around the local Ollama HTTP API.
+Supports both streaming and non-streaming modes.
+
+Install Ollama:  brew install ollama
+Pull a model:    ollama pull llama3
+Start server:    ollama serve   (runs on http://localhost:11434)
+"""
+
+from __future__ import annotations
+import json
+import re
+import logging
+from typing import Generator
+import requests
+
+logger = logging.getLogger(__name__)
+
+OLLAMA_URL        = "http://localhost:11434/api/generate"
+OLLAMA_MODEL      = "llama3"       # default; caller can override
+TIMEOUT_STREAM    = 120
+TIMEOUT_BLOCKING  = 60
+
+
+def run_ollama(prompt: str, model: str = OLLAMA_MODEL) -> dict | None:
+    """Non-streaming call — returns parsed JSON result or None on failure."""
+    try:
+        response = requests.post(
+            OLLAMA_URL,
+            json={"model": model, "prompt": prompt, "stream": False},
+            timeout=TIMEOUT_BLOCKING,
+        )
+        if response.status_code != 200:
+            logger.warning(f"Ollama HTTP {response.status_code}: {response.text[:120]}")
+            return None
+        text = response.json().get("response", "")
+        return _extract_json(text)
+    except requests.exceptions.ConnectionError:
+        logger.warning("Ollama not reachable — is 'ollama serve' running?")
+        return None
+    except requests.exceptions.Timeout:
+        logger.warning(f"Ollama timed out after {TIMEOUT_BLOCKING}s")
+        return None
+    except Exception as e:
+        logger.error(f"Ollama error: {e}")
+        return None
+
+
+def stream_ollama(prompt: str, model: str = OLLAMA_MODEL) -> Generator[str, None, dict | None]:
+    """
+    Streaming generator — yields text deltas, returns final parsed JSON via StopIteration.
+
+    Usage in Flask:
+        gen = stream_ollama(prompt)
+        try:
+            while True:
+                delta = next(gen)
+                yield f"data: {json.dumps({'delta': delta})}\\n\\n"
+        except StopIteration as e:
+            result = e.value   # dict | None
+    """
+    full_text = ""
+    result    = None
+    try:
+        with requests.post(
+            OLLAMA_URL,
+            json={"model": model, "prompt": prompt, "stream": True},
+            stream=True,
+            timeout=TIMEOUT_STREAM,
+        ) as resp:
+            if resp.status_code != 200:
+                logger.warning(f"Ollama stream HTTP {resp.status_code}")
+                return None
+
+            for raw_line in resp.iter_lines():
+                if not raw_line:
+                    continue
+                try:
+                    chunk = json.loads(raw_line.decode("utf-8"))
+                except json.JSONDecodeError:
+                    continue
+                token = chunk.get("response", "")
+                if token:
+                    full_text += token
+                    yield token
+                if chunk.get("done"):
+                    break
+
+        result = _extract_json(full_text)
+
+    except requests.exceptions.ConnectionError:
+        logger.warning("Ollama not reachable during stream")
+    except requests.exceptions.Timeout:
+        logger.warning(f"Ollama stream timed out after {TIMEOUT_STREAM}s")
+    except Exception as e:
+        logger.error(f"Ollama stream error: {e}")
+
+    return result
+
+
+def is_available() -> bool:
+    """Quick health-check — True if Ollama server is reachable."""
+    try:
+        r = requests.get("http://localhost:11434", timeout=2)
+        return r.status_code == 200
+    except Exception:
+        return False
+
+
+def _extract_json(text: str) -> dict | None:
+    """Extract the first JSON object from a text blob."""
+    match = re.search(r"\{[\s\S]*\}", text)
+    if not match:
+        logger.warning("Ollama response contained no JSON block")
+        return None
+    try:
+        return json.loads(match.group())
+    except (json.JSONDecodeError, ValueError) as e:
+        logger.warning(f"Ollama JSON parse error: {e}")
+        return None
+</file>
+
+<file path="static/script.js">
+
+</file>
+
+<file path="static/style.css">
+
+</file>
+
+<file path="templates/ai-decision-simulator.html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Decision Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13161d;
+    --bg3: #1a1e28;
+    --surface: #1f2433;
+    --surface2: #252b3b;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8eaf0;
+    --text2: #9ba3b8;
+    --text3: #5c6480;
+    --accent: #4f8ef7;
+    --accent2: #7b5ea7;
+    --green: #3ecf8e;
+    --amber: #f5a623;
+    --red: #ef4444;
+    --teal: #2dd4bf;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'Instrument Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', 'Courier New', monospace;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-lg: 18px;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 0 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    background: rgba(13,15,20,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-icon svg { width: 18px; height: 18px; fill: white; }
+
+  .logo-text {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .logo-text span { color: var(--accent); }
+
+  .header-badge {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--green);
+    background: rgba(62,207,142,0.1);
+    border: 1px solid rgba(62,207,142,0.2);
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 4rem 0 3rem;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.15;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero p {
+    color: var(--text2);
+    font-size: 1.05rem;
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* MAIN GRID */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* PANEL */
+  .panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .panel-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .panel-header-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .panel-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--text2);
+    text-transform: uppercase;
+  }
+
+  .panel-body { padding: 1.5rem; }
+
+  /* FORM */
+  .form-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-section:last-child { margin-bottom: 0; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.9rem;
+  }
+
+  .field {
+    margin-bottom: 1rem;
+  }
+
+  .field:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text2);
+    margin-bottom: 0.4rem;
+  }
+
+  select, input[type="number"], textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    padding: 0.6rem 0.85rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  select:focus, input[type="number"]:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ba3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2.2rem;
+  }
+
+  textarea { resize: vertical; min-height: 80px; }
+
+  /* SLIDER */
+  .slider-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  input[type="range"] {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    transition: transform 0.15s;
+    box-shadow: 0 0 0 3px rgba(79,142,247,0.2);
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  .slider-val {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--accent);
+    min-width: 28px;
+    text-align: right;
+    font-weight: 500;
+  }
+
+  /* RADIO CARDS */
+  .radio-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .radio-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .radio-card:hover { border-color: var(--border2); background: var(--surface2); }
+
+  .radio-card.active {
+    border-color: var(--accent);
+    background: rgba(79,142,247,0.1);
+  }
+
+  .radio-card input { display: none; }
+
+  .radio-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1.5px solid var(--text3);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .radio-card.active .radio-dot {
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+
+  .radio-card.active .radio-dot::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: white;
+  }
+
+  .radio-label {
+    font-size: 0.82rem;
+    color: var(--text2);
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .radio-card.active .radio-label { color: var(--accent); }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.25rem 0;
+  }
+
+  /* BUTTON */
+  .btn-simulate {
+    width: 100%;
+    padding: 0.85rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-simulate:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn-simulate:active { transform: translateY(0); }
+
+  .btn-simulate:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* SPINNER */
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* RESULTS PANEL */
+  .results-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .empty-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--surface);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+  }
+
+  .empty-icon svg { width: 26px; height: 26px; stroke: var(--text3); }
+
+  .empty-state h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.3rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state p {
+    font-size: 0.88rem;
+    color: var(--text3);
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  /* METRICS ROW */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .metric-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+  }
+
+  .metric-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+  }
+
+  .metric-value {
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .metric-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-weight: 500;
+  }
+
+  /* OUTCOMES */
+  .outcomes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .outcome-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: border-color 0.2s;
+  }
+
+  .outcome-item:hover { border-color: var(--border2); }
+
+  .outcome-rank {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text3);
+    min-width: 22px;
+    margin-top: 2px;
+  }
+
+  .outcome-body { flex: 1; }
+
+  .outcome-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+
+  .outcome-desc {
+    font-size: 0.82rem;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .outcome-score-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0.5rem;
+  }
+
+  .outcome-bar {
+    flex: 1;
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .outcome-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  .outcome-pct {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text3);
+    min-width: 34px;
+    text-align: right;
+  }
+
+  .outcome-badge {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* CHART CARD */
+  .chart-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .chart-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+  }
+
+  .chart-tab {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text3);
+    padding: 0.9rem 0;
+    margin-right: 1.5rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .chart-tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .chart-body { padding: 1.5rem; position: relative; min-height: 260px; }
+
+  canvas { display: block; }
+
+  /* INSIGHT BOX */
+  .insight-box {
+    background: rgba(79,142,247,0.06);
+    border: 1px solid rgba(79,142,247,0.18);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    display: flex;
+    gap: 10px;
+  }
+
+  .insight-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .insight-icon svg { width: 20px; height: 20px; stroke: var(--accent); fill: none; }
+
+  .insight-text {
+    font-size: 0.85rem;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  .insight-text strong { color: var(--text); font-weight: 600; }
+
+  /* HISTORY */
+  .history-row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .history-chip {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 10px;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .history-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* STREAM OUTPUT */
+  .stream-area {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .stream-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .stream-title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .live-dot {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--green);
+  }
+
+  .live-dot::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .stream-body {
+    padding: 1.25rem 1.5rem;
+    font-size: 0.88rem;
+    color: var(--text2);
+    line-height: 1.75;
+    min-height: 100px;
+    font-family: var(--font-mono);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 4rem;
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-text {
+    font-size: 0.78rem;
+    color: var(--text3);
+    font-family: var(--font-mono);
+  }
+
+  .footer-text a { color: var(--accent); text-decoration: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .metrics-row { grid-template-columns: 1fr 1fr; }
+    header { padding: 0 1.25rem; }
+    .container { padding: 1.5rem; }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-in { animation: fadeIn 0.4s ease forwards; }
+
+  .animate-in:nth-child(1) { animation-delay: 0.05s; }
+  .animate-in:nth-child(2) { animation-delay: 0.12s; }
+  .animate-in:nth-child(3) { animation-delay: 0.19s; }
+  .animate-in:nth-child(4) { animation-delay: 0.26s; }
+  .animate-in:nth-child(5) { animation-delay: 0.33s; }
+
+  /* HISTORY section */
+  .history-section {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* TABS */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <span class="logo-text">AI<span>Decide</span></span>
+  </div>
+  <span class="header-badge">LIVE &mdash; Powered by Claude</span>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <p class="hero-eyebrow">AI Decision Simulator &mdash; B.Tech CSE Project</p>
+    <h1>Simulate decisions.<br>Understand <em>outcomes</em>.</h1>
+    <p>Configure your scenario, set constraints, and let AI analyze multiple strategic outcomes with risk scoring and confidence metrics.</p>
+  </div>
+
+  <div class="main-grid">
+    <!-- LEFT: INPUT PANEL -->
+    <div>
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-header-dot" style="background: #3ecf8e;"></div>
+          <span class="panel-title">Scenario Configuration</span>
+        </div>
+        <div class="panel-body">
+
+          <div class="form-section">
+            <div class="section-label">Domain</div>
+            <div class="field">
+              <label for="domain">Decision domain</label>
+              <select id="domain">
+                <option value="business">Business Strategy</option>
+                <option value="finance">Financial Management</option>
+                <option value="healthcare">Healthcare Resource Allocation</option>
+                <option value="education">Education Planning</option>
+                <option value="technology">Technology Investment</option>
+                <option value="risk">Risk Management</option>
+              </select>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="form-section">
+            <div class="section-label">Core Parameters</div>
+
+            <div class="field">
+              <label for="scenario">Describe your scenario</label>
+              <textarea id="scenario" placeholder="e.g. Should we expand to a new market in Q3, given budget constraints and current growth?" rows="3"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Budget (₹ Lakhs)</label>
+              <div class="slider-wrap">
+                <input type="range" id="budget" min="1" max="100" value="30" step="1">
+                <span class="slider-val" id="budget-val">30L</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Risk tolerance</label>
+              <div class="slider-wrap">
+                <input type="range" id="risk" min="1" max="10" value="5" step="1">
+                <span class="slider-val" id="risk-val">5</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Time horizon (weeks)</label>
+              <div class="slider-wrap">
+                <input type="range" id="time" min="1" max="52" value="12" step="1">
+                <span class="slider-val" id="time-val">12w</span>
+              </div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="form-section">
+            <div class="section-label">Priority Focus</div>
+            <div class="radio-cards" id="priority-cards">
+              <label class="radio-card active" data-val="growth">
+                <input type="radio" name="priority" value="growth" checked>
+                <div class="radio-dot"></div>
+                <span class="radio-label">Growth</span>
+              </label>
+              <label class="radio-card" data-val="stability">
+                <input type="radio" name="priority" value="stability">
+                <div class="radio-dot"></div>
+                <span class="radio-label">Stability</span>
+              </label>
+              <label class="radio-card" data-val="efficiency">
+                <input type="radio" name="priority" value="efficiency">
+                <div class="radio-dot"></div>
+                <span class="radio-label">Efficiency</span>
+              </label>
+              <label class="radio-card" data-val="innovation">
+                <input type="radio" name="priority" value="innovation">
+                <div class="radio-dot"></div>
+                <span class="radio-label">Innovation</span>
+              </label>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <button class="btn-simulate" id="simulate-btn" onclick="runSimulation()">
+            Run Simulation &rarr;
+          </button>
+
+          <div class="history-section" id="history-section" style="display:none;">
+            <div class="section-label">Recent simulations</div>
+            <div class="history-row" id="history-row"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESULTS PANEL -->
+    <div class="results-panel" id="results-panel">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+          </svg>
+        </div>
+        <h3>Ready to simulate</h3>
+        <p>Configure your scenario parameters and click Run Simulation to get AI-powered decision analysis.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-text">AI Decision Simulator &mdash; Nakul (23-CSE-5305) &amp; Deepanshu (24-CSE-5351) &mdash; BRCM COET</span>
+  <span class="footer-text">Guide: <a href="#">Ms. Jyoti</a> | CSE Dept.</span>
+</footer>
+
+<script>
+const ANTHROPIC_API = 'https://api.anthropic.com/v1/messages';
+
+// Slider bindings
+document.getElementById('budget').addEventListener('input', e => {
+  document.getElementById('budget-val').textContent = e.target.value + 'L';
+});
+document.getElementById('risk').addEventListener('input', e => {
+  document.getElementById('risk-val').textContent = e.target.value;
+});
+document.getElementById('time').addEventListener('input', e => {
+  document.getElementById('time-val').textContent = e.target.value + 'w';
+});
+
+// Radio cards
+document.querySelectorAll('.radio-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.radio-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+  });
+});
+
+let simHistory = [];
+let chartInstance = null;
+let activeTab = 'radar';
+
+function getParams() {
+  return {
+    domain: document.getElementById('domain').value,
+    scenario: document.getElementById('scenario').value || 'General strategic expansion decision',
+    budget: parseInt(document.getElementById('budget').value),
+    risk: parseInt(document.getElementById('risk').value),
+    time: parseInt(document.getElementById('time').value),
+    priority: document.querySelector('.radio-card.active')?.dataset.val || 'growth'
+  };
+}
+
+function buildPrompt(p) {
+  return `You are an AI Decision Simulator for a B.Tech CSE project. Analyze the following decision scenario and respond ONLY with valid JSON. No markdown, no explanation, just JSON.
+
+Scenario: "${p.scenario}"
+Domain: ${p.domain}
+Budget: ₹${p.budget} Lakhs
+Risk Tolerance: ${p.risk}/10
+Time Horizon: ${p.time} weeks
+Priority: ${p.priority}
+
+Return this exact JSON structure:
+{
+  "summary": "2-sentence executive summary of the scenario",
+  "riskLevel": "Low|Medium|High|Critical",
+  "confidenceScore": <number 60-97>,
+  "expectedROI": "<e.g. 12-18%>",
+  "outcomes": [
+    {
+      "rank": 1,
+      "title": "Primary Recommendation",
+      "description": "2-3 sentence explanation of this outcome strategy",
+      "probability": <number 50-85>,
+      "color": "green",
+      "badge": "Recommended"
+    },
+    {
+      "rank": 2,
+      "title": "Alternative Strategy A",
+      "description": "2-3 sentence explanation",
+      "probability": <number 30-60>,
+      "color": "amber",
+      "badge": "Alternative"
+    },
+    {
+      "rank": 3,
+      "title": "Conservative Fallback",
+      "description": "2-3 sentence explanation",
+      "probability": <number 15-35>,
+      "color": "red",
+      "badge": "Fallback"
+    }
+  ],
+  "radarData": {
+    "labels": ["Feasibility", "ROI Potential", "Risk Control", "Time Efficiency", "Alignment"],
+    "values": [<5 numbers 40-95>]
+  },
+  "insight": "One specific, actionable insight for this exact scenario based on the parameters given.",
+  "keyRisks": ["Risk 1", "Risk 2", "Risk 3"]
+}`;
+}
+
+async function runSimulation() {
+  const btn = document.getElementById('simulate-btn');
+  const p = getParams();
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Analyzing...';
+  document.getElementById('empty-state')?.remove();
+
+  const panel = document.getElementById('results-panel');
+
+  // Show streaming area immediately
+  panel.innerHTML = `
+    <div class="stream-area animate-in" id="stream-area">
+      <div class="stream-header">
+        <span class="stream-title">AI Processing</span>
+        <span class="live-dot">Streaming</span>
+      </div>
+      <div class="stream-body" id="stream-body">Initializing decision engine...</div>
+    </div>
+  `;
+
+  let fullText = '';
+
+  try {
+    const resp = await fetch(ANTHROPIC_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1200,
+        stream: true,
+        messages: [{ role: 'user', content: buildPrompt(p) }]
+      })
+    });
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    const streamBody = document.getElementById('stream-body');
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value);
+      const lines = chunk.split('\n').filter(l => l.startsWith('data: '));
+      for (const line of lines) {
+        const data = line.slice(6);
+        if (data === '[DONE]') continue;
+        try {
+          const parsed = JSON.parse(data);
+          const delta = parsed.delta?.text || '';
+          if (delta) {
+            fullText += delta;
+            streamBody.textContent = fullText;
+          }
+        } catch {}
+      }
+    }
+
+    // Parse JSON
+    const jsonMatch = fullText.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('Invalid response');
+    const result = JSON.parse(jsonMatch[0]);
+
+    renderResults(result, p, panel);
+    addHistory(p);
+
+  } catch (err) {
+    panel.innerHTML = `
+      <div class="panel animate-in" style="background:var(--bg2);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-lg);padding:2rem;text-align:center;">
+        <p style="color:var(--red);font-family:var(--font-mono);font-size:0.85rem;">Simulation failed. Check your API connection.</p>
+        <p style="color:var(--text3);font-size:0.78rem;margin-top:0.5rem;">${err.message}</p>
+      </div>
+    `;
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Run Simulation &rarr;';
+  }
+}
+
+function renderResults(r, p, panel) {
+  const riskColors = { Low: '#3ecf8e', Medium: '#f5a623', High: '#ef4444', Critical: '#a855f7' };
+  const riskColor = riskColors[r.riskLevel] || '#f5a623';
+  const outcomeColors = { green: '#3ecf8e', amber: '#f5a623', red: '#ef4444' };
+
+  panel.innerHTML = `
+    <!-- METRICS -->
+    <div class="metrics-row animate-in">
+      <div class="metric-card">
+        <div class="metric-label">Confidence</div>
+        <div class="metric-value" style="color:var(--accent);">${r.confidenceScore}%</div>
+        <span class="metric-badge" style="background:rgba(79,142,247,0.12);color:var(--accent);">AI-scored</span>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Risk Level</div>
+        <div class="metric-value" style="color:${riskColor};">${r.riskLevel}</div>
+        <span class="metric-badge" style="background:rgba(255,255,255,0.05);color:var(--text3);">Risk ${p.risk}/10</span>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Expected ROI</div>
+        <div class="metric-value" style="color:var(--green);">${r.expectedROI}</div>
+        <span class="metric-badge" style="background:rgba(62,207,142,0.1);color:var(--green);">${p.time}w horizon</span>
+      </div>
+    </div>
+
+    <!-- INSIGHT -->
+    <div class="insight-box animate-in">
+      <div class="insight-icon">
+        <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <div class="insight-text"><strong>AI Insight:</strong> ${r.insight}</div>
+    </div>
+
+    <!-- OUTCOMES -->
+    <div class="panel animate-in">
+      <div class="panel-header">
+        <div class="panel-header-dot" style="background:var(--accent);"></div>
+        <span class="panel-title">Decision Outcomes</span>
+      </div>
+      <div class="panel-body">
+        <div class="outcomes-list">
+          ${r.outcomes.map(o => `
+            <div class="outcome-item">
+              <div class="outcome-rank">#${o.rank}</div>
+              <div class="outcome-body">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.3rem;">
+                  <div class="outcome-title">${o.title}</div>
+                  <span class="outcome-badge" style="background:${outcomeColors[o.color] || '#4f8ef7'}22;color:${outcomeColors[o.color] || '#4f8ef7'};">${o.badge}</span>
+                </div>
+                <div class="outcome-desc">${o.description}</div>
+                <div class="outcome-score-wrap">
+                  <div class="outcome-bar">
+                    <div class="outcome-bar-fill" style="width:${o.probability}%;background:${outcomeColors[o.color] || '#4f8ef7'};"></div>
+                  </div>
+                  <span class="outcome-pct">${o.probability}%</span>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-card animate-in">
+      <div class="chart-tabs">
+        <div class="chart-tab active" onclick="switchTab('radar', this)">Radar Analysis</div>
+        <div class="chart-tab" onclick="switchTab('bar', this)">Outcome Scores</div>
+        <div class="chart-tab" onclick="switchTab('risks', this)">Risk Factors</div>
+      </div>
+      <div class="chart-body">
+        <div class="tab-content active" id="tab-radar">
+          <canvas id="radarChart" height="240"></canvas>
+        </div>
+        <div class="tab-content" id="tab-bar">
+          <canvas id="barChart" height="240"></canvas>
+        </div>
+        <div class="tab-content" id="tab-risks">
+          <div style="padding:0.5rem 0;">
+            ${(r.keyRisks || []).map((risk, i) => `
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:0.7rem 0;${i > 0 ? 'border-top:1px solid var(--border);' : ''}">
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--red);min-width:20px;margin-top:1px;">R${i+1}</span>
+                <span style="font-size:0.85rem;color:var(--text2);">${risk}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="panel animate-in">
+      <div class="panel-header">
+        <div class="panel-header-dot" style="background:var(--teal);"></div>
+        <span class="panel-title">Executive Summary</span>
+      </div>
+      <div class="panel-body">
+        <p style="font-size:0.88rem;color:var(--text2);line-height:1.75;">${r.summary}</p>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;gap:1.5rem;flex-wrap:wrap;">
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Budget: <span style="color:var(--text);">₹${p.budget}L</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Horizon: <span style="color:var(--text);">${p.time} weeks</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Priority: <span style="color:var(--text);">${p.priority}</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Domain: <span style="color:var(--text);">${p.domain}</span></span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Render charts
+  setTimeout(() => {
+    renderRadarChart(r.radarData);
+    renderBarChart(r.outcomes);
+  }, 100);
+}
+
+function switchTab(tab, el) {
+  document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + tab)?.classList.add('active');
+}
+
+function renderRadarChart(data) {
+  const ctx = document.getElementById('radarChart');
+  if (!ctx) return;
+  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+  chartInstance = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: data.labels,
+      datasets: [{
+        label: 'Decision Score',
+        data: data.values,
+        borderColor: '#4f8ef7',
+        backgroundColor: 'rgba(79,142,247,0.12)',
+        borderWidth: 2,
+        pointBackgroundColor: '#4f8ef7',
+        pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { display: false },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          angleLines: { color: 'rgba(255,255,255,0.08)' },
+          pointLabels: { color: '#9ba3b8', font: { size: 11, family: 'DM Mono' } }
+        }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+function renderBarChart(outcomes) {
+  const ctx = document.getElementById('barChart');
+  if (!ctx) return;
+  const colors = outcomes.map(o => o.color === 'green' ? '#3ecf8e' : o.color === 'amber' ? '#f5a623' : '#ef4444');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: outcomes.map(o => o.title.substring(0, 20) + (o.title.length > 20 ? '…' : '')),
+      datasets: [{
+        data: outcomes.map(o => o.probability),
+        backgroundColor: colors.map(c => c + '33'),
+        borderColor: colors,
+        borderWidth: 1.5,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#9ba3b8', font: { size: 10 } } },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          ticks: { color: '#9ba3b8', font: { size: 10 } },
+          min: 0, max: 100
+        }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+function addHistory(p) {
+  const label = `${p.domain} / R${p.risk} / ₹${p.budget}L`;
+  simHistory.unshift(label);
+  if (simHistory.length > 5) simHistory.pop();
+  const section = document.getElementById('history-section');
+  const row = document.getElementById('history-row');
+  section.style.display = 'block';
+  row.innerHTML = simHistory.map(h => `<span class="history-chip">${h}</span>`).join('');
+}
+</script>
+</body>
+</html>
+</file>
+
+<file path="templates/result.html">
+
+</file>
+
+<file path="AI.html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Decision Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13161d;
+    --bg3: #1a1e28;
+    --surface: #1f2433;
+    --surface2: #252b3b;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8eaf0;
+    --text2: #9ba3b8;
+    --text3: #5c6480;
+    --accent: #4f8ef7;
+    --accent2: #7b5ea7;
+    --green: #3ecf8e;
+    --amber: #f5a623;
+    --red: #ef4444;
+    --teal: #2dd4bf;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'Instrument Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', 'Courier New', monospace;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-lg: 18px;
+  }
+
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 0 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    background: rgba(13,15,20,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .logo { display: flex; align-items: center; gap: 10px; }
+
+  .logo-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .logo-icon svg { width: 18px; height: 18px; fill: white; }
+
+  .logo-text { font-family: var(--font-mono); font-weight: 500; font-size: 0.95rem; letter-spacing: -0.01em; color: var(--text); }
+  .logo-text span { color: var(--accent); }
+
+  .header-badge {
+    font-family: var(--font-mono); font-size: 0.7rem; color: var(--green);
+    background: rgba(62,207,142,0.1); border: 1px solid rgba(62,207,142,0.2);
+    padding: 4px 10px; border-radius: 20px; letter-spacing: 0.05em;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 2.5rem; }
+
+  .hero { text-align: center; padding: 4rem 0 3rem; }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.25rem;
+  }
+
+  .hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 3.6rem); line-height: 1.15; font-weight: 400; color: var(--text); margin-bottom: 1rem; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero p { color: var(--text2); font-size: 1.05rem; max-width: 540px; margin: 0 auto; line-height: 1.7; }
+
+  .main-grid { display: grid; grid-template-columns: 380px 1fr; gap: 2rem; align-items: start; }
+
+  .panel { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+
+  .panel-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .panel-header-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .panel-title { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; color: var(--text2); text-transform: uppercase; }
+  .panel-body { padding: 1.5rem; }
+
+  .form-section { margin-bottom: 1.5rem; }
+  .form-section:last-child { margin-bottom: 0; }
+
+  .section-label { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.9rem; }
+
+  .field { margin-bottom: 1rem; }
+  .field:last-child { margin-bottom: 0; }
+
+  label { display: block; font-size: 0.82rem; font-weight: 500; color: var(--text2); margin-bottom: 0.4rem; }
+
+  select, input[type="number"], textarea {
+    width: 100%; background: var(--surface); border: 1px solid var(--border2);
+    border-radius: var(--radius-sm); color: var(--text); font-family: var(--font-body);
+    font-size: 0.88rem; padding: 0.6rem 0.85rem; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s; appearance: none; -webkit-appearance: none;
+  }
+
+  select:focus, input[type="number"]:focus, textarea:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ba3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2.2rem;
+  }
+
+  textarea { resize: vertical; min-height: 80px; }
+
+  .slider-wrap { display: flex; align-items: center; gap: 12px; }
+
+  input[type="range"] {
+    flex: 1; -webkit-appearance: none; height: 4px; background: var(--surface2);
+    border-radius: 2px; outline: none; cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent); cursor: pointer; transition: transform 0.15s;
+    box-shadow: 0 0 0 3px rgba(79,142,247,0.2);
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  .slider-val { font-family: var(--font-mono); font-size: 0.82rem; color: var(--accent); min-width: 28px; text-align: right; font-weight: 500; }
+
+  .radio-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  .radio-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 0.65rem 0.85rem;
+    cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+
+  .radio-card:hover { border-color: var(--border2); background: var(--surface2); }
+  .radio-card.active { border-color: var(--accent); background: rgba(79,142,247,0.1); }
+  .radio-card input { display: none; }
+
+  .radio-dot {
+    width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--text3);
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  }
+
+  .radio-card.active .radio-dot { border-color: var(--accent); background: var(--accent); }
+
+  .radio-card.active .radio-dot::after {
+    content: ''; width: 5px; height: 5px; border-radius: 50%; background: white;
+  }
+
+  .radio-label { font-size: 0.82rem; color: var(--text2); font-weight: 500; transition: color 0.2s; }
+  .radio-card.active .radio-label { color: var(--accent); }
+
+  /* 3-ENGINE TOGGLE */
+  .engine-toggle { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 0.85rem; }
+
+  .engine-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 0.6rem 0.5rem;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    text-align: center;
+  }
+
+  .engine-card:hover { border-color: var(--border2); background: var(--surface2); }
+  .engine-card.active { border-color: var(--accent); background: rgba(79,142,247,0.1); }
+
+  .engine-icon { font-size: 1rem; line-height: 1; }
+
+  .engine-name {
+    font-family: var(--font-mono); font-size: 0.62rem; font-weight: 500;
+    color: var(--text2); transition: color 0.2s;
+  }
+
+  .engine-card.active .engine-name { color: var(--accent); }
+
+  .engine-desc {
+    font-family: var(--font-mono); font-size: 0.55rem; color: var(--text3);
+    transition: color 0.2s;
+  }
+
+  .engine-card.active .engine-desc { color: rgba(79,142,247,0.7); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+
+  .btn-simulate {
+    width: 100%; padding: 0.85rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white; border: none; border-radius: var(--radius-sm);
+    font-family: var(--font-body); font-size: 0.9rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; letter-spacing: 0.01em;
+    position: relative; overflow: hidden;
+  }
+
+  .btn-simulate:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn-simulate:active { transform: translateY(0); }
+  .btn-simulate:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .spinner {
+    display: inline-block; width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3); border-top-color: white;
+    border-radius: 50%; animation: spin 0.7s linear infinite;
+    vertical-align: middle; margin-right: 8px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .results-panel { display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .empty-state {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 4rem 2rem; text-align: center;
+  }
+
+  .empty-icon {
+    width: 56px; height: 56px; background: var(--surface);
+    border-radius: 14px; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.25rem;
+  }
+
+  .empty-icon svg { width: 26px; height: 26px; stroke: var(--text3); }
+  .empty-state h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; color: var(--text); margin-bottom: 0.5rem; }
+  .empty-state p { font-size: 0.88rem; color: var(--text3); max-width: 300px; margin: 0 auto; }
+
+  .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+
+  .metric-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; }
+  .metric-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .metric-value { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 500; line-height: 1.2; }
+  .metric-badge { display: inline-block; font-size: 0.65rem; padding: 2px 7px; border-radius: 10px; margin-top: 6px; font-family: var(--font-mono); font-weight: 500; }
+
+  .outcomes-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .outcome-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1rem 1.25rem;
+    display: flex; align-items: flex-start; gap: 1rem; transition: border-color 0.2s;
+  }
+
+  .outcome-item:hover { border-color: var(--border2); }
+  .outcome-rank { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text3); min-width: 22px; margin-top: 2px; }
+  .outcome-body { flex: 1; }
+  .outcome-title { font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 0.25rem; }
+  .outcome-desc { font-size: 0.82rem; color: var(--text2); line-height: 1.5; }
+  .outcome-score-wrap { display: flex; align-items: center; gap: 8px; margin-top: 0.5rem; }
+  .outcome-bar { flex: 1; height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+  .outcome-bar-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+  .outcome-pct { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3); min-width: 34px; text-align: right; }
+  .outcome-badge { font-family: var(--font-mono); font-size: 0.65rem; padding: 3px 8px; border-radius: 8px; font-weight: 500; white-space: nowrap; }
+
+  .chart-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+
+  .chart-tabs { display: flex; border-bottom: 1px solid var(--border); padding: 0 1.5rem; }
+
+  .chart-tab {
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3);
+    padding: 0.9rem 0; margin-right: 1.5rem; cursor: pointer;
+    border-bottom: 2px solid transparent; transition: all 0.2s;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+
+  .chart-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .chart-body { padding: 1.5rem; position: relative; min-height: 260px; }
+
+  canvas { display: block; }
+
+  .insight-box {
+    background: rgba(79,142,247,0.06); border: 1px solid rgba(79,142,247,0.18);
+    border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; gap: 10px;
+  }
+
+  .insight-icon { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; }
+  .insight-icon svg { width: 20px; height: 20px; stroke: var(--accent); fill: none; }
+  .insight-text { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+  .insight-text strong { color: var(--text); font-weight: 600; }
+
+  .history-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+  .history-chip {
+    font-family: var(--font-mono); font-size: 0.68rem;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 4px 10px; color: var(--text2);
+    cursor: pointer; transition: all 0.2s;
+  }
+
+  .history-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  .stream-area { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+
+  .stream-header {
+    padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .stream-title { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .live-dot { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 0.68rem; color: var(--green); }
+
+  .live-dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 1.5s infinite; }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .stream-body {
+    padding: 1.25rem 1.5rem; font-size: 0.88rem; color: var(--text2);
+    line-height: 1.75; min-height: 100px; font-family: var(--font-mono);
+    white-space: pre-wrap; word-break: break-word;
+  }
+
+  footer {
+    margin-top: 4rem; border-top: 1px solid var(--border);
+    padding: 1.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .footer-text { font-size: 0.78rem; color: var(--text3); font-family: var(--font-mono); }
+  .footer-text a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 900px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .metrics-row { grid-template-columns: 1fr 1fr; }
+    header { padding: 0 1.25rem; }
+    .container { padding: 1.5rem; }
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  .animate-in { animation: fadeIn 0.4s ease forwards; }
+  .animate-in:nth-child(1) { animation-delay: 0.05s; }
+  .animate-in:nth-child(2) { animation-delay: 0.12s; }
+  .animate-in:nth-child(3) { animation-delay: 0.19s; }
+  .animate-in:nth-child(4) { animation-delay: 0.26s; }
+  .animate-in:nth-child(5) { animation-delay: 0.33s; }
+
+  .history-section { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Error state */
+  .error-panel {
+    background: var(--bg2); border: 1px solid rgba(239,68,68,0.3);
+    border-radius: var(--radius-lg); padding: 2rem; text-align: center;
+  }
+  .error-panel p.error-title { color: var(--red); font-family: var(--font-mono); font-size: 0.85rem; }
+  .error-panel p.error-detail { color: var(--text3); font-size: 0.78rem; margin-top: 0.5rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <span class="logo-text">AI<span>Decide</span></span>
+  </div>
+  <span class="header-badge">LIVE &mdash; Claude &bull; Ollama &bull; Local</span>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <p class="hero-eyebrow">AI Decision Simulator &mdash; B.Tech CSE Project</p>
+    <h1>Simulate decisions.<br>Understand <em>outcomes</em>.</h1>
+    <p>Configure your scenario, set constraints, and let AI analyze multiple strategic outcomes with risk scoring and confidence metrics.</p>
+  </div>
+
+  <div class="main-grid">
+    <!-- LEFT: INPUT PANEL -->
+    <div>
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-header-dot" style="background: #3ecf8e;"></div>
+          <span class="panel-title">Scenario Configuration</span>
+        </div>
+        <div class="panel-body">
+
+          <div class="form-section">
+            <div class="section-label">Domain</div>
+            <div class="field">
+              <label for="domain">Decision domain</label>
+              <select id="domain">
+                <option value="business">Business Strategy</option>
+                <option value="finance">Financial Management</option>
+                <option value="healthcare">Healthcare Resource Allocation</option>
+                <option value="education">Education Planning</option>
+                <option value="technology">Technology Investment</option>
+                <option value="risk">Risk Management</option>
+              </select>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="form-section">
+            <div class="section-label">Core Parameters</div>
+
+            <div class="field">
+              <label for="scenario">Describe your scenario</label>
+              <textarea id="scenario" placeholder="e.g. Should we expand to a new market in Q3, given budget constraints and current growth?" rows="3"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Budget (₹ Lakhs)</label>
+              <div class="slider-wrap">
+                <input type="range" id="budget" min="1" max="100" value="30" step="1">
+                <span class="slider-val" id="budget-val">30L</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Risk tolerance</label>
+              <div class="slider-wrap">
+                <input type="range" id="risk" min="1" max="10" value="5" step="1">
+                <span class="slider-val" id="risk-val">5</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Time horizon (weeks)</label>
+              <div class="slider-wrap">
+                <input type="range" id="time" min="1" max="52" value="12" step="1">
+                <span class="slider-val" id="time-val">12w</span>
+              </div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="form-section">
+            <div class="section-label">Priority Focus</div>
+            <div class="radio-cards" id="priority-cards">
+              <label class="radio-card active" data-val="growth">
+                <input type="radio" name="priority" value="growth" checked>
+                <div class="radio-dot"></div>
+                <span class="radio-label">Growth</span>
+              </label>
+              <label class="radio-card" data-val="stability">
+                <input type="radio" name="priority" value="stability">
+                <div class="radio-dot"></div>
+                <span class="radio-label">Stability</span>
+              </label>
+              <label class="radio-card" data-val="efficiency">
+                <input type="radio" name="priority" value="efficiency">
+                <div class="radio-dot"></div>
+                <span class="radio-label">Efficiency</span>
+              </label>
+              <label class="radio-card" data-val="innovation">
+                <input type="radio" name="priority" value="innovation">
+                <div class="radio-dot"></div>
+                <span class="radio-label">Innovation</span>
+              </label>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <!-- 3-ENGINE TOGGLE -->
+          <div class="form-section">
+            <div class="section-label">AI Engine</div>
+            <div class="engine-toggle" id="engine-toggle">
+              <div class="engine-card active" data-engine="anthropic" onclick="setEngine('anthropic')">
+                <span class="engine-icon">🧠</span>
+                <span class="engine-name">Claude</span>
+                <span class="engine-desc">Best quality</span>
+              </div>
+              <div class="engine-card" data-engine="ollama" onclick="setEngine('ollama')">
+                <span class="engine-icon">🦙</span>
+                <span class="engine-name">Ollama</span>
+                <span class="engine-desc">Local LLM</span>
+              </div>
+              <div class="engine-card" data-engine="local" onclick="setEngine('local')">
+                <span class="engine-icon">⚡</span>
+                <span class="engine-name">Rule Engine</span>
+                <span class="engine-desc">Instant, free</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ollama model selector (shown only when Ollama engine selected) -->
+          <div class="field" id="ollama-model-field" style="display:none;margin-bottom:0.85rem;">
+            <label for="ollama-model">Ollama model</label>
+            <select id="ollama-model">
+              <option value="llama3">llama3</option>
+              <option value="llama3.1">llama3.1</option>
+              <option value="mistral">mistral</option>
+              <option value="phi3">phi3</option>
+              <option value="gemma2">gemma2</option>
+            </select>
+          </div>
+
+          <button class="btn-simulate" id="simulate-btn" onclick="runSimulation()">
+            Run Simulation &rarr;
+          </button>
+
+          <div class="history-section" id="history-section" style="display:none;">
+            <div class="section-label">Recent simulations</div>
+            <div class="history-row" id="history-row"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESULTS PANEL -->
+    <div class="results-panel" id="results-panel">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+          </svg>
+        </div>
+        <h3>Ready to simulate</h3>
+        <p>Configure your scenario parameters and click Run Simulation to get AI-powered decision analysis.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-text">AI Decision Simulator &mdash; Nakul (23-CSE-5305) &amp; Deepanshu (24-CSE-5351) &mdash; BRCM COET</span>
+  <span class="footer-text">Guide: <a href="#">Ms. Jyoti</a> | CSE Dept.</span>
+</footer>
+
+<script>
+// ── Slider bindings ───────────────────────────────────────────────────────────
+document.getElementById('budget').addEventListener('input', e => {
+  document.getElementById('budget-val').textContent = e.target.value + 'L';
+});
+document.getElementById('risk').addEventListener('input', e => {
+  document.getElementById('risk-val').textContent = e.target.value;
+});
+document.getElementById('time').addEventListener('input', e => {
+  document.getElementById('time-val').textContent = e.target.value + 'w';
+});
+
+// ── Priority radio cards ──────────────────────────────────────────────────────
+document.querySelectorAll('#priority-cards .radio-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('#priority-cards .radio-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+  });
+});
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let chartInstance = null;
+let dbHistory     = [];
+let engineMode    = 'anthropic';   // 'anthropic' | 'ollama' | 'local'
+
+// ── Engine toggle ─────────────────────────────────────────────────────────────
+function setEngine(mode) {
+  engineMode = mode;
+  document.querySelectorAll('.engine-card').forEach(card => {
+    card.classList.toggle('active', card.dataset.engine === mode);
+  });
+  // Show Ollama model selector only when Ollama is chosen
+  document.getElementById('ollama-model-field').style.display =
+    mode === 'ollama' ? 'block' : 'none';
+}
+
+// ── Load DB history on page load ──────────────────────────────────────────────
+async function loadHistory() {
+  try {
+    const resp = await fetch('/api/history');
+    if (!resp.ok) return;
+    dbHistory = await resp.json();
+    renderHistoryChips();
+  } catch {}
+}
+
+function renderHistoryChips() {
+  if (!dbHistory.length) return;
+  const section = document.getElementById('history-section');
+  const row     = document.getElementById('history-row');
+  section.style.display = 'block';
+  row.innerHTML = dbHistory.map(h => `
+    <span class="history-chip" onclick="loadHistorySim(${h.id})">
+      ${h.domain} / R${h.risk} / ₹${h.budget}L
+    </span>`).join('');
+}
+
+async function loadHistorySim(id) {
+  try {
+    const resp = await fetch(`/api/history/${id}`);
+    if (!resp.ok) return;
+    const data = await resp.json();
+    if (data.result) {
+      const p = {
+        domain: data.domain, scenario: data.scenario,
+        budget: data.budget, risk: data.risk,
+        time: data.time_weeks, priority: data.priority
+      };
+      data.result._engine  = data.engine_used || 'anthropic';
+      data.result._latency = data.latency_ms  || 0;
+      renderResults(data.result, p, document.getElementById('results-panel'));
+    }
+  } catch {}
+}
+
+// ── Build params payload ──────────────────────────────────────────────────────
+function getParams() {
+  const priorityCard = document.querySelector('#priority-cards .radio-card.active');
+  return {
+    domain:   document.getElementById('domain').value,
+    scenario: document.getElementById('scenario').value.trim() || 'General strategic expansion decision',
+    budget:   parseInt(document.getElementById('budget').value),
+    risk:     parseInt(document.getElementById('risk').value),
+    time:     parseInt(document.getElementById('time').value),
+    priority: priorityCard?.dataset.val || 'growth',
+    engine:   engineMode,
+    model:    document.getElementById('ollama-model')?.value || 'llama3'
+  };
+}
+
+// ── Error display helper ──────────────────────────────────────────────────────
+function showError(panel, message) {
+  panel.innerHTML = `
+    <div class="error-panel animate-in">
+      <p class="error-title">Simulation failed.</p>
+      <p class="error-detail">${message}</p>
+    </div>
+  `;
+}
+
+// ── Main simulation ───────────────────────────────────────────────────────────
+async function runSimulation() {
+  const btn   = document.getElementById('simulate-btn');
+  const panel = document.getElementById('results-panel');
+  const p     = getParams();
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Analyzing...';
+  document.getElementById('empty-state')?.remove();
+
+  const engineLabels = {
+    anthropic: 'Calling Hybrid AI (Claude + rule engine)...',
+    ollama:    'Running local Ollama LLM...',
+    local:     'Running rule-based decision engine...'
+  };
+
+  panel.innerHTML = `
+    <div class="stream-area animate-in" id="stream-area">
+      <div class="stream-header">
+        <span class="stream-title">AI Processing</span>
+        <span class="live-dot">Streaming</span>
+      </div>
+      <div class="stream-body" id="stream-body">${engineLabels[engineMode] || 'Initializing...'}</div>
+    </div>
+  `;
+
+  let result = null;
+
+  try {
+    const resp = await fetch('/api/simulate', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(p)
+    });
+
+    // Non-2xx → read error JSON and throw
+    if (!resp.ok) {
+      let errMsg = `HTTP ${resp.status}`;
+      try { const errBody = await resp.json(); errMsg = errBody.error || errMsg; } catch {}
+      throw new Error(errMsg);
+    }
+
+    const reader     = resp.body.getReader();
+    const decoder    = new TextDecoder();
+    const streamBody = document.getElementById('stream-body');
+    let   buf        = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+
+      const lines = buf.split('\n');
+      buf = lines.pop();   // keep incomplete line in buffer
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const payload = line.slice(6).trim();
+        if (!payload) continue;
+
+        let msg;
+        try { msg = JSON.parse(payload); }
+        catch { continue; }
+
+        // ── SSE error from backend ────────────────────────────────────────
+        if (msg.error) {
+          throw new Error(msg.error);
+        }
+
+        // ── Streaming delta (Anthropic token) ─────────────────────────────
+        if (msg.delta) {
+          streamBody.textContent += msg.delta;
+        }
+
+        // ── Final result ──────────────────────────────────────────────────
+        if (msg.done && msg.result) {
+          result          = msg.result;
+          result._engine  = msg.engine || 'anthropic';
+          result._latency = msg.latency_ms || 0;
+        }
+      }
+    }
+
+    if (!result) throw new Error('No result received from server.');
+
+    renderResults(result, p, panel);
+    await loadHistory();
+
+  } catch (err) {
+    showError(panel, err.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Run Simulation &rarr;';
+  }
+}
+
+loadHistory();
+
+// ── Render results ────────────────────────────────────────────────────────────
+function renderResults(r, p, panel) {
+  const riskColors    = { Low: '#3ecf8e', Medium: '#f5a623', High: '#ef4444', Critical: '#a855f7' };
+  const outcomeColors = { green: '#3ecf8e', amber: '#f5a623', red: '#ef4444' };
+  const riskColor     = riskColors[r.riskLevel] || '#f5a623';
+
+  const engineLabel = {
+    local:           'Rule Engine',
+    ollama:          'Ollama LLM',
+    ollama_fallback: 'Ollama → Fallback',
+    local_fallback:  'AI → Fallback',
+    anthropic:       'Claude AI'
+  }[r._engine] || 'Claude AI';
+
+  const engineColor = {
+    local:           'var(--amber)',
+    ollama:          'var(--teal)',
+    ollama_fallback: 'var(--red)',
+    local_fallback:  'var(--red)',
+    anthropic:       'var(--green)'
+  }[r._engine] || 'var(--green)';
+
+  panel.innerHTML = `
+    <!-- ENGINE BADGE -->
+    <div style="display:flex;justify-content:flex-end;margin-bottom:-0.5rem;">
+      <span style="font-family:var(--font-mono);font-size:0.65rem;padding:3px 10px;border-radius:12px;
+        background:${engineColor}18;color:${engineColor};border:1px solid ${engineColor}40;">
+        ${engineLabel}
+      </span>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics-row animate-in" style="grid-template-columns:repeat(4,1fr);">
+      <div class="metric-card">
+        <div class="metric-label">Confidence</div>
+        <div class="metric-value" style="color:var(--accent);">${r.confidenceScore}%</div>
+        <span class="metric-badge" style="background:rgba(79,142,247,0.12);color:var(--accent);">AI-scored</span>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Risk Level</div>
+        <div class="metric-value" style="color:${riskColor};">${r.riskLevel}</div>
+        <span class="metric-badge" style="background:rgba(255,255,255,0.05);color:var(--text3);">Risk ${p.risk}/10</span>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Expected ROI</div>
+        <div class="metric-value" style="color:var(--green);">${r.expectedROI}</div>
+        <span class="metric-badge" style="background:rgba(62,207,142,0.1);color:var(--green);">${p.time}w horizon</span>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Latency</div>
+        <div class="metric-value" style="color:var(--teal);">${r._latency > 999 ? (r._latency/1000).toFixed(1)+'s' : r._latency+'ms'}</div>
+        <span class="metric-badge" style="background:rgba(45,212,191,0.1);color:var(--teal);">${engineLabel}</span>
+      </div>
+    </div>
+
+    <!-- INSIGHT -->
+    <div class="insight-box animate-in">
+      <div class="insight-icon">
+        <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <div class="insight-text"><strong>AI Insight:</strong> ${r.insight}</div>
+    </div>
+
+    <!-- OUTCOMES -->
+    <div class="panel animate-in">
+      <div class="panel-header">
+        <div class="panel-header-dot" style="background:var(--accent);"></div>
+        <span class="panel-title">Decision Outcomes</span>
+      </div>
+      <div class="panel-body">
+        <div class="outcomes-list">
+          ${r.outcomes.map(o => `
+            <div class="outcome-item">
+              <div class="outcome-rank">#${o.rank}</div>
+              <div class="outcome-body">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.3rem;">
+                  <div class="outcome-title">${o.title}</div>
+                  <span class="outcome-badge" style="background:${outcomeColors[o.color] || '#4f8ef7'}22;color:${outcomeColors[o.color] || '#4f8ef7'};">${o.badge}</span>
+                </div>
+                <div class="outcome-desc">${o.description}</div>
+                <div class="outcome-score-wrap">
+                  <div class="outcome-bar">
+                    <div class="outcome-bar-fill" style="width:${o.probability}%;background:${outcomeColors[o.color] || '#4f8ef7'};"></div>
+                  </div>
+                  <span class="outcome-pct">${o.probability}%</span>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-card animate-in">
+      <div class="chart-tabs">
+        <div class="chart-tab active" onclick="switchTab('radar', this)">Radar Analysis</div>
+        <div class="chart-tab" onclick="switchTab('bar', this)">Outcome Scores</div>
+        <div class="chart-tab" onclick="switchTab('risks', this)">Risk Factors</div>
+      </div>
+      <div class="chart-body">
+        <div class="tab-content active" id="tab-radar">
+          <canvas id="radarChart" height="240"></canvas>
+        </div>
+        <div class="tab-content" id="tab-bar">
+          <canvas id="barChart" height="240"></canvas>
+        </div>
+        <div class="tab-content" id="tab-risks">
+          <div style="padding:0.5rem 0;">
+            ${(r.keyRisks || []).map((risk, i) => `
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:0.7rem 0;${i > 0 ? 'border-top:1px solid var(--border);' : ''}">
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--red);min-width:20px;margin-top:1px;">R${i+1}</span>
+                <span style="font-size:0.85rem;color:var(--text2);">${risk}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="panel animate-in">
+      <div class="panel-header">
+        <div class="panel-header-dot" style="background:var(--teal);"></div>
+        <span class="panel-title">Executive Summary</span>
+      </div>
+      <div class="panel-body">
+        <p style="font-size:0.88rem;color:var(--text2);line-height:1.75;">${r.summary}</p>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;gap:1.5rem;flex-wrap:wrap;">
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Budget: <span style="color:var(--text);">₹${p.budget}L</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Horizon: <span style="color:var(--text);">${p.time} weeks</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Priority: <span style="color:var(--text);">${p.priority}</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Domain: <span style="color:var(--text);">${p.domain}</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Engine: <span style="color:${engineColor};">${engineLabel}</span></span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  setTimeout(() => {
+    renderRadarChart(r.radarData);
+    renderBarChart(r.outcomes);
+  }, 100);
+}
+
+function switchTab(tab, el) {
+  document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + tab)?.classList.add('active');
+}
+
+function renderRadarChart(data) {
+  const ctx = document.getElementById('radarChart');
+  if (!ctx) return;
+  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+  chartInstance = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: data.labels,
+      datasets: [{
+        label: 'Decision Score',
+        data: data.values,
+        borderColor: '#4f8ef7',
+        backgroundColor: 'rgba(79,142,247,0.12)',
+        borderWidth: 2,
+        pointBackgroundColor: '#4f8ef7',
+        pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { display: false },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          angleLines: { color: 'rgba(255,255,255,0.08)' },
+          pointLabels: { color: '#9ba3b8', font: { size: 11, family: 'DM Mono' } }
+        }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+function renderBarChart(outcomes) {
+  const ctx = document.getElementById('barChart');
+  if (!ctx) return;
+  const colors = outcomes.map(o => o.color === 'green' ? '#3ecf8e' : o.color === 'amber' ? '#f5a623' : '#ef4444');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: outcomes.map(o => o.title.substring(0, 20) + (o.title.length > 20 ? '…' : '')),
+      datasets: [{
+        data: outcomes.map(o => o.probability),
+        backgroundColor: colors.map(c => c + '33'),
+        borderColor: colors,
+        borderWidth: 1.5,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#9ba3b8', font: { size: 10 } } },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          ticks: { color: '#9ba3b8', font: { size: 10 } },
+          min: 0, max: 100
+        }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+</script>
+</body>
+</html>
+</file>
+
+<file path="app.py">
+"""
+app.py — AI Decision Simulator
+Flask backend with:
+  - Input validation via data_processor.py
+  - Rule-based fallback via decision_engine.py
+  - Tri-engine selector: local | ollama (streaming) | anthropic (streaming)
+  - Smart auto-routing when no engine specified
+  - Per-request latency tracking stored in DB
+  - SQLite history via database.py (zero duplication)
+"""
+
+import os
+import json
+import re
+import time
+import logging
+from flask import Flask, render_template, request, Response, jsonify, g
+from dotenv import load_dotenv
+import requests
+
+from data_processor import process_input, ValidationError, summarise
+from decision_engine import make_decision
+from database import (
+    get_connection, init_schema,
+    insert_simulation, fetch_history, fetch_simulation, delete_simulation,
+)
+from ollama_engine import stream_ollama, is_available
+
+load_dotenv()
+
+app = Flask(__name__)
+app.config["DATABASE"] = os.path.join(app.root_path, "database.db")
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+
+ANTHROPIC_API = "https://api.anthropic.com/v1/messages"
+ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+
+
+# ── Database helpers (no logic duplicated from database.py) ───────────────────
+
+def get_db():
+    if "db" not in g:
+        g.db = get_connection(app.config["DATABASE"])
+    return g.db
+
+@app.teardown_appcontext
+def close_db(error=None):
+    db = g.pop("db", None)
+    if db:
+        db.close()
+
+def save_simulation(params, result, engine_used, latency_ms: int = 0):
+    try:
+        insert_simulation(get_db(), params, result, engine_used, latency_ms)
+    except Exception as e:
+        app.logger.warning(f"DB save failed: {e}")
+
+
+# ── Smart engine auto-router ──────────────────────────────────────────────────
+
+def select_engine(requested: str | None) -> str:
+    """
+    If the user explicitly picked an engine, honour it.
+    Otherwise pick the best available engine automatically:
+      1. Anthropic (highest quality, needs API key)
+      2. Ollama    (local LLM, needs server running)
+      3. local     (always available, instant)
+    """
+    if requested and requested in ("local", "ollama", "anthropic"):
+        return requested
+    # Auto-select
+    if ANTHROPIC_KEY:
+        return "anthropic"
+    if is_available():
+        return "ollama"
+    return "local"
+
+
+# ── Routes ────────────────────────────────────────────────────────────────────
+
+@app.route("/")
+def index():
+    return render_template("ai-decision-simulator.html")
+
+
+@app.route("/api/simulate", methods=["POST"])
+def simulate():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON or wrong Content-Type"}), 400
+
+    try:
+        params = process_input(data)
+    except ValidationError as e:
+        return jsonify({"error": str(e)}), 400
+
+    app.logger.info(f"Simulation: {summarise(params)}")
+
+    # Engine selection — respects explicit choice, auto-routes if absent/invalid
+    engine      = select_engine(data.get("engine"))
+    ollama_model = data.get("model", "llama3")   # frontend can optionally send model name
+
+    app.logger.info(f"Engine: {engine}")
+
+    # ── LOCAL ─────────────────────────────────────────────────────────────────
+    if engine == "local":
+        t0     = time.time()
+        result = make_decision(params).to_dict()
+        ms     = int((time.time() - t0) * 1000)
+        save_simulation(params, result, "local", ms)
+
+        def local_stream():
+            yield f"data: {json.dumps({'done': True, 'result': result, 'engine': 'local', 'latency_ms': ms})}\n\n"
+
+        return Response(local_stream(), mimetype="text/event-stream",
+                        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+    # ── OLLAMA (streaming) ────────────────────────────────────────────────────
+    if engine == "ollama":
+        if not is_available():
+            app.logger.warning("Ollama not running — falling back to local engine")
+            result = make_decision(params).to_dict()
+            save_simulation(params, result, "ollama_fallback", 0)
+
+            def ollama_unavail_stream():
+                yield f"data: {json.dumps({'done': True, 'result': result, 'engine': 'ollama_fallback', 'latency_ms': 0})}\n\n"
+
+            return Response(ollama_unavail_stream(), mimetype="text/event-stream",
+                            headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+        preflight = make_decision(params)
+        prompt    = build_prompt(params, preflight)
+
+        def ollama_stream():
+            t0        = time.time()
+            gen       = stream_ollama(prompt, model=ollama_model)
+            result    = None
+            engine_used = "ollama"
+
+            try:
+                while True:
+                    delta = next(gen)
+                    yield f"data: {json.dumps({'delta': delta})}\n\n"
+            except StopIteration as e:
+                result = e.value
+
+            ms = int((time.time() - t0) * 1000)
+
+            if not result:
+                app.logger.warning("Ollama stream returned no parseable JSON — local fallback")
+                result      = preflight.to_dict()
+                engine_used = "ollama_fallback"
+
+            save_simulation(params, result, engine_used, ms)
+            yield f"data: {json.dumps({'done': True, 'result': result, 'engine': engine_used, 'latency_ms': ms})}\n\n"
+
+        return Response(ollama_stream(), mimetype="text/event-stream",
+                        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+    # ── ANTHROPIC (streaming) ─────────────────────────────────────────────────
+    if not ANTHROPIC_KEY:
+        app.logger.warning("No Anthropic key — auto-falling back to local engine")
+        result = make_decision(params).to_dict()
+        save_simulation(params, result, "local_fallback", 0)
+
+        def no_key_stream():
+            yield f"data: {json.dumps({'done': True, 'result': result, 'engine': 'local_fallback', 'latency_ms': 0})}\n\n"
+
+        return Response(no_key_stream(), mimetype="text/event-stream",
+                        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+    preflight = make_decision(params)
+    prompt    = build_prompt(params, preflight)
+
+    def anthropic_stream():
+        full_text   = ""
+        t0          = time.time()
+        engine_used = "anthropic"
+        result      = None
+
+        try:
+            with requests.post(
+                ANTHROPIC_API,
+                headers={
+                    "x-api-key":         ANTHROPIC_KEY,
+                    "anthropic-version": "2023-06-01",
+                    "content-type":      "application/json",
+                },
+                json={
+                    "model":    "claude-sonnet-4-20250514",
+                    "max_tokens": 1200,
+                    "stream":   True,
+                    "messages": [{"role": "user", "content": prompt}],
+                },
+                stream=True,
+                timeout=60,
+            ) as resp:
+                if resp.status_code != 200:
+                    raise RuntimeError(f"Anthropic {resp.status_code}: {resp.text[:200]}")
+
+                for raw_line in resp.iter_lines():
+                    if not raw_line:
+                        continue
+                    line = raw_line.decode("utf-8")
+                    if not line.startswith("data: "):
+                        continue
+                    payload = line[6:]
+                    if payload == "[DONE]":
+                        break
+                    try:
+                        chunk = json.loads(payload)
+                        delta = chunk.get("delta", {}).get("text", "")
+                        if delta:
+                            full_text += delta
+                            yield f"data: {json.dumps({'delta': delta})}\n\n"
+                    except json.JSONDecodeError:
+                        pass
+
+            ms = int((time.time() - t0) * 1000)
+            m  = re.search(r"\{[\s\S]*\}", full_text)
+            if m:
+                try:
+                    result = json.loads(m.group())
+                except json.JSONDecodeError:
+                    pass
+
+            if not result:
+                app.logger.warning("LLM unparseable — local fallback")
+                result      = preflight.to_dict()
+                engine_used = "local_fallback"
+
+            save_simulation(params, result, engine_used, ms)
+            yield f"data: {json.dumps({'done': True, 'result': result, 'engine': engine_used, 'latency_ms': ms})}\n\n"
+
+        except requests.exceptions.Timeout:
+            app.logger.warning("Anthropic timeout — local fallback")
+            result = preflight.to_dict()
+            ms = int((time.time() - t0) * 1000)
+            save_simulation(params, result, "local_fallback", ms)
+            yield f"data: {json.dumps({'done': True, 'result': result, 'engine': 'local_fallback', 'latency_ms': ms})}\n\n"
+
+        except Exception as e:
+            app.logger.error(f"Stream error: {e}")
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+
+    return Response(anthropic_stream(), mimetype="text/event-stream",
+                    headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+
+@app.route("/api/history")
+def history():
+    return jsonify(fetch_history(get_db()))
+
+
+@app.route("/api/history/<int:sim_id>")
+def history_detail(sim_id):
+    row = fetch_simulation(get_db(), sim_id)
+    if not row:
+        return jsonify({"error": "Not found"}), 404
+    return jsonify(row)
+
+
+@app.route("/api/history/<int:sim_id>", methods=["DELETE"])
+def delete_history(sim_id):
+    if not delete_simulation(get_db(), sim_id):
+        return jsonify({"error": "Not found"}), 404
+    return jsonify({"deleted": sim_id})
+
+
+# ── Prompt builder ────────────────────────────────────────────────────────────
+
+def build_prompt(p, preflight):
+    pf = preflight.to_dict()
+    return f"""You are an AI Decision Simulator. Analyze this scenario and respond ONLY with valid JSON.
+
+Scenario: "{p['scenario']}"
+Domain: {p['domain']}
+Budget: \u20b9{p['budget']} Lakhs
+Risk Tolerance: {p['risk']}/10
+Time Horizon: {p['time']} weeks
+Priority: {p['priority']}
+
+Pre-computed baseline (rule-based engine):
+- Risk level: {pf['riskLevel']}
+- Confidence: {pf['confidenceScore']}%
+- Estimated ROI: {pf['expectedROI']}
+
+Return this exact JSON (outcome probabilities must sum to ~100):
+{{
+  "summary": "2-sentence executive summary",
+  "riskLevel": "Low|Medium|High|Critical",
+  "confidenceScore": <integer 60-97>,
+  "expectedROI": "<e.g. 12-18%>",
+  "outcomes": [
+    {{"rank":1,"title":"Primary Recommendation","description":"2-3 sentences","probability":<50-85>,"color":"green","badge":"Recommended"}},
+    {{"rank":2,"title":"Alternative Strategy","description":"2-3 sentences","probability":<15-35>,"color":"amber","badge":"Alternative"}},
+    {{"rank":3,"title":"Conservative Fallback","description":"2-3 sentences","probability":<5-20>,"color":"red","badge":"Fallback"}}
+  ],
+  "radarData": {{
+    "labels": ["Feasibility","ROI Potential","Risk Control","Time Efficiency","Alignment"],
+    "values": [<5 integers 40-95>]
+  }},
+  "insight": "One specific actionable insight for this exact scenario.",
+  "keyRisks": ["Risk 1","Risk 2","Risk 3"]
+}}"""
+
+
+# ── Entry ─────────────────────────────────────────────────────────────────────
+
+with app.app_context():
+    init_schema(get_connection(app.config["DATABASE"]))
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=6000)
+</file>
+
+<file path="templates/index.html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Decision Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13161d;
+    --bg3: #1a1e28;
+    --surface: #1f2433;
+    --surface2: #252b3b;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8eaf0;
+    --text2: #9ba3b8;
+    --text3: #5c6480;
+    --accent: #4f8ef7;
+    --accent2: #7b5ea7;
+    --green: #3ecf8e;
+    --amber: #f5a623;
+    --red: #ef4444;
+    --teal: #2dd4bf;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'Instrument Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', 'Courier New', monospace;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-lg: 18px;
+  }
+
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 0 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    background: rgba(13,15,20,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .logo { display: flex; align-items: center; gap: 10px; }
+
+  .logo-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .logo-icon svg { width: 18px; height: 18px; fill: white; }
+
+  .logo-text { font-family: var(--font-mono); font-weight: 500; font-size: 0.95rem; letter-spacing: -0.01em; color: var(--text); }
+  .logo-text span { color: var(--accent); }
+
+  .header-badge {
+    font-family: var(--font-mono); font-size: 0.7rem; color: var(--green);
+    background: rgba(62,207,142,0.1); border: 1px solid rgba(62,207,142,0.2);
+    padding: 4px 10px; border-radius: 20px; letter-spacing: 0.05em;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 2.5rem; }
+
+  .hero { text-align: center; padding: 4rem 0 3rem; }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.25rem;
+  }
+
+  .hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 3.6rem); line-height: 1.15; font-weight: 400; color: var(--text); margin-bottom: 1rem; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero p { color: var(--text2); font-size: 1.05rem; max-width: 540px; margin: 0 auto; line-height: 1.7; }
+
+  .main-grid { display: grid; grid-template-columns: 380px 1fr; gap: 2rem; align-items: start; }
+
+  .panel { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+
+  .panel-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .panel-header-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .panel-title { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; color: var(--text2); text-transform: uppercase; }
+  .panel-body { padding: 1.5rem; }
+
+  .form-section { margin-bottom: 1.5rem; }
+  .form-section:last-child { margin-bottom: 0; }
+
+  .section-label { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.9rem; }
+
+  .field { margin-bottom: 1rem; }
+  .field:last-child { margin-bottom: 0; }
+
+  label { display: block; font-size: 0.82rem; font-weight: 500; color: var(--text2); margin-bottom: 0.4rem; }
+
+  select, input[type="number"], textarea {
+    width: 100%; background: var(--surface); border: 1px solid var(--border2);
+    border-radius: var(--radius-sm); color: var(--text); font-family: var(--font-body);
+    font-size: 0.88rem; padding: 0.6rem 0.85rem; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s; appearance: none; -webkit-appearance: none;
+  }
+
+  select:focus, input[type="number"]:focus, textarea:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ba3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2.2rem;
+  }
+
+  textarea { resize: vertical; min-height: 80px; }
+
+  .slider-wrap { display: flex; align-items: center; gap: 12px; }
+
+  input[type="range"] {
+    flex: 1; -webkit-appearance: none; height: 4px; background: var(--surface2);
+    border-radius: 2px; outline: none; cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent); cursor: pointer; transition: transform 0.15s;
+    box-shadow: 0 0 0 3px rgba(79,142,247,0.2);
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  .slider-val { font-family: var(--font-mono); font-size: 0.82rem; color: var(--accent); min-width: 28px; text-align: right; font-weight: 500; }
+
+  .radio-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  .radio-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 0.65rem 0.85rem;
+    cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+
+  .radio-card:hover { border-color: var(--border2); background: var(--surface2); }
+  .radio-card.active { border-color: var(--accent); background: rgba(79,142,247,0.1); }
+  .radio-card input { display: none; }
+
+  .radio-dot {
+    width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--text3);
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  }
+
+  .radio-card.active .radio-dot { border-color: var(--accent); background: var(--accent); }
+
+  .radio-card.active .radio-dot::after {
+    content: ''; width: 5px; height: 5px; border-radius: 50%; background: white;
+  }
+
+  .radio-label { font-size: 0.82rem; color: var(--text2); font-weight: 500; transition: color 0.2s; }
+  .radio-card.active .radio-label { color: var(--accent); }
+
+  /* 3-ENGINE TOGGLE */
+  .engine-toggle { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 0.85rem; }
+
+  .engine-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 0.6rem 0.5rem;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    text-align: center;
+  }
+
+  .engine-card:hover { border-color: var(--border2); background: var(--surface2); }
+  .engine-card.active { border-color: var(--accent); background: rgba(79,142,247,0.1); }
+
+  .engine-icon { font-size: 1rem; line-height: 1; }
+
+  .engine-name {
+    font-family: var(--font-mono); font-size: 0.62rem; font-weight: 500;
+    color: var(--text2); transition: color 0.2s;
+  }
+
+  .engine-card.active .engine-name { color: var(--accent); }
+
+  .engine-desc {
+    font-family: var(--font-mono); font-size: 0.55rem; color: var(--text3);
+    transition: color 0.2s;
+  }
+
+  .engine-card.active .engine-desc { color: rgba(79,142,247,0.7); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+
+  .btn-simulate {
+    width: 100%; padding: 0.85rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white; border: none; border-radius: var(--radius-sm);
+    font-family: var(--font-body); font-size: 0.9rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; letter-spacing: 0.01em;
+    position: relative; overflow: hidden;
+  }
+
+  .btn-simulate:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn-simulate:active { transform: translateY(0); }
+  .btn-simulate:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .spinner {
+    display: inline-block; width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3); border-top-color: white;
+    border-radius: 50%; animation: spin 0.7s linear infinite;
+    vertical-align: middle; margin-right: 8px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .results-panel { display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .empty-state {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 4rem 2rem; text-align: center;
+  }
+
+  .empty-icon {
+    width: 56px; height: 56px; background: var(--surface);
+    border-radius: 14px; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.25rem;
+  }
+
+  .empty-icon svg { width: 26px; height: 26px; stroke: var(--text3); }
+  .empty-state h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; color: var(--text); margin-bottom: 0.5rem; }
+  .empty-state p { font-size: 0.88rem; color: var(--text3); max-width: 300px; margin: 0 auto; }
+
+  .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+
+  .metric-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; }
+  .metric-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .metric-value { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 500; line-height: 1.2; }
+  .metric-badge { display: inline-block; font-size: 0.65rem; padding: 2px 7px; border-radius: 10px; margin-top: 6px; font-family: var(--font-mono); font-weight: 500; }
+
+  .outcomes-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .outcome-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1rem 1.25rem;
+    display: flex; align-items: flex-start; gap: 1rem; transition: border-color 0.2s;
+  }
+
+  .outcome-item:hover { border-color: var(--border2); }
+  .outcome-rank { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text3); min-width: 22px; margin-top: 2px; }
+  .outcome-body { flex: 1; }
+  .outcome-title { font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 0.25rem; }
+  .outcome-desc { font-size: 0.82rem; color: var(--text2); line-height: 1.5; }
+  .outcome-score-wrap { display: flex; align-items: center; gap: 8px; margin-top: 0.5rem; }
+  .outcome-bar { flex: 1; height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+  .outcome-bar-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+  .outcome-pct { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3); min-width: 34px; text-align: right; }
+  .outcome-badge { font-family: var(--font-mono); font-size: 0.65rem; padding: 3px 8px; border-radius: 8px; font-weight: 500; white-space: nowrap; }
+
+  .chart-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+
+  .chart-tabs { display: flex; border-bottom: 1px solid var(--border); padding: 0 1.5rem; }
+
+  .chart-tab {
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3);
+    padding: 0.9rem 0; margin-right: 1.5rem; cursor: pointer;
+    border-bottom: 2px solid transparent; transition: all 0.2s;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+
+  .chart-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .chart-body { padding: 1.5rem; position: relative; min-height: 260px; }
+
+  canvas { display: block; }
+
+  .insight-box {
+    background: rgba(79,142,247,0.06); border: 1px solid rgba(79,142,247,0.18);
+    border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; gap: 10px;
+  }
+
+  .insight-icon { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; }
+  .insight-icon svg { width: 20px; height: 20px; stroke: var(--accent); fill: none; }
+  .insight-text { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+  .insight-text strong { color: var(--text); font-weight: 600; }
+
+  .history-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+  .history-chip {
+    font-family: var(--font-mono); font-size: 0.68rem;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 4px 10px; color: var(--text2);
+    cursor: pointer; transition: all 0.2s;
+  }
+
+  .history-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  .stream-area { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+
+  .stream-header {
+    padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .stream-title { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .live-dot { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 0.68rem; color: var(--green); }
+
+  .live-dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 1.5s infinite; }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .stream-body {
+    padding: 1.25rem 1.5rem; font-size: 0.88rem; color: var(--text2);
+    line-height: 1.75; min-height: 100px; font-family: var(--font-mono);
+    white-space: pre-wrap; word-break: break-word;
+  }
+
+  footer {
+    margin-top: 4rem; border-top: 1px solid var(--border);
+    padding: 1.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .footer-text { font-size: 0.78rem; color: var(--text3); font-family: var(--font-mono); }
+  .footer-text a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 900px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .metrics-row { grid-template-columns: 1fr 1fr; }
+    header { padding: 0 1.25rem; }
+    .container { padding: 1.5rem; }
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  .animate-in { animation: fadeIn 0.4s ease forwards; }
+  .animate-in:nth-child(1) { animation-delay: 0.05s; }
+  .animate-in:nth-child(2) { animation-delay: 0.12s; }
+  .animate-in:nth-child(3) { animation-delay: 0.19s; }
+  .animate-in:nth-child(4) { animation-delay: 0.26s; }
+  .animate-in:nth-child(5) { animation-delay: 0.33s; }
+
+  .history-section { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Error state */
+  .error-panel {
+    background: var(--bg2); border: 1px solid rgba(239,68,68,0.3);
+    border-radius: var(--radius-lg); padding: 2rem; text-align: center;
+  }
+  .error-panel p.error-title { color: var(--red); font-family: var(--font-mono); font-size: 0.85rem; }
+  .error-panel p.error-detail { color: var(--text3); font-size: 0.78rem; margin-top: 0.5rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <span class="logo-text">AI<span>Decide</span></span>
+  </div>
+  <span class="header-badge">LIVE &mdash; Claude &bull; Ollama &bull; Local</span>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <p class="hero-eyebrow">AI Decision Simulator &mdash; B.Tech CSE Project</p>
+    <h1>Simulate decisions.<br>Understand <em>outcomes</em>.</h1>
+    <p>Configure your scenario, set constraints, and let AI analyze multiple strategic outcomes with risk scoring and confidence metrics.</p>
+  </div>
+
+  <div class="main-grid">
+    <!-- LEFT: INPUT PANEL -->
+    <div>
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-header-dot" style="background: #3ecf8e;"></div>
+          <span class="panel-title">Scenario Configuration</span>
+        </div>
+        <div class="panel-body">
+
+          <div class="form-section">
+            <div class="section-label">Domain</div>
+            <div class="field">
+              <label for="domain">Decision domain</label>
+              <select id="domain">
+                <option value="business">Business Strategy</option>
+                <option value="finance">Financial Management</option>
+                <option value="healthcare">Healthcare Resource Allocation</option>
+                <option value="education">Education Planning</option>
+                <option value="technology">Technology Investment</option>
+                <option value="risk">Risk Management</option>
+              </select>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="form-section">
+            <div class="section-label">Core Parameters</div>
+
+            <div class="field">
+              <label for="scenario">Describe your scenario</label>
+              <textarea id="scenario" placeholder="e.g. Should we expand to a new market in Q3, given budget constraints and current growth?" rows="3"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Budget (₹ Lakhs)</label>
+              <div class="slider-wrap">
+                <input type="range" id="budget" min="1" max="100" value="30" step="1">
+                <span class="slider-val" id="budget-val">30L</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Risk tolerance</label>
+              <div class="slider-wrap">
+                <input type="range" id="risk" min="1" max="10" value="5" step="1">
+                <span class="slider-val" id="risk-val">5</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Time horizon (weeks)</label>
+              <div class="slider-wrap">
+                <input type="range" id="time" min="1" max="52" value="12" step="1">
+                <span class="slider-val" id="time-val">12w</span>
+              </div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="form-section">
+            <div class="section-label">Priority Focus</div>
+            <div class="radio-cards" id="priority-cards">
+              <label class="radio-card active" data-val="growth">
+                <input type="radio" name="priority" value="growth" checked>
+                <div class="radio-dot"></div>
+                <span class="radio-label">Growth</span>
+              </label>
+              <label class="radio-card" data-val="stability">
+                <input type="radio" name="priority" value="stability">
+                <div class="radio-dot"></div>
+                <span class="radio-label">Stability</span>
+              </label>
+              <label class="radio-card" data-val="efficiency">
+                <input type="radio" name="priority" value="efficiency">
+                <div class="radio-dot"></div>
+                <span class="radio-label">Efficiency</span>
+              </label>
+              <label class="radio-card" data-val="innovation">
+                <input type="radio" name="priority" value="innovation">
+                <div class="radio-dot"></div>
+                <span class="radio-label">Innovation</span>
+              </label>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <!-- 3-ENGINE TOGGLE -->
+          <div class="form-section">
+            <div class="section-label">AI Engine</div>
+            <div class="engine-toggle" id="engine-toggle">
+              <div class="engine-card active" data-engine="anthropic" onclick="setEngine('anthropic')">
+                <span class="engine-icon">🧠</span>
+                <span class="engine-name">Claude</span>
+                <span class="engine-desc">Best quality</span>
+              </div>
+              <div class="engine-card" data-engine="ollama" onclick="setEngine('ollama')">
+                <span class="engine-icon">🦙</span>
+                <span class="engine-name">Ollama</span>
+                <span class="engine-desc">Local LLM</span>
+              </div>
+              <div class="engine-card" data-engine="local" onclick="setEngine('local')">
+                <span class="engine-icon">⚡</span>
+                <span class="engine-name">Rule Engine</span>
+                <span class="engine-desc">Instant, free</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ollama model selector (shown only when Ollama engine selected) -->
+          <div class="field" id="ollama-model-field" style="display:none;margin-bottom:0.85rem;">
+            <label for="ollama-model">Ollama model</label>
+            <select id="ollama-model">
+              <option value="llama3">llama3</option>
+              <option value="llama3.1">llama3.1</option>
+              <option value="mistral">mistral</option>
+              <option value="phi3">phi3</option>
+              <option value="gemma2">gemma2</option>
+            </select>
+          </div>
+
+          <button class="btn-simulate" id="simulate-btn" onclick="runSimulation()">
+            Run Simulation &rarr;
+          </button>
+
+          <div class="history-section" id="history-section" style="display:none;">
+            <div class="section-label">Recent simulations</div>
+            <div class="history-row" id="history-row"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESULTS PANEL -->
+    <div class="results-panel" id="results-panel">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+          </svg>
+        </div>
+        <h3>Ready to simulate</h3>
+        <p>Configure your scenario parameters and click Run Simulation to get AI-powered decision analysis.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-text">AI Decision Simulator &mdash; Nakul (23-CSE-5305) &amp; Deepanshu (24-CSE-5351) &mdash; BRCM COET</span>
+  <span class="footer-text">Guide: <a href="#">Ms. Jyoti</a> | CSE Dept.</span>
+</footer>
+
+<script>
+// ── Slider bindings ───────────────────────────────────────────────────────────
+document.getElementById('budget').addEventListener('input', e => {
+  document.getElementById('budget-val').textContent = e.target.value + 'L';
+});
+document.getElementById('risk').addEventListener('input', e => {
+  document.getElementById('risk-val').textContent = e.target.value;
+});
+document.getElementById('time').addEventListener('input', e => {
+  document.getElementById('time-val').textContent = e.target.value + 'w';
+});
+
+// ── Priority radio cards ──────────────────────────────────────────────────────
+document.querySelectorAll('#priority-cards .radio-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('#priority-cards .radio-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+  });
+});
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let chartInstance = null;
+let dbHistory     = [];
+let engineMode    = 'anthropic';   // 'anthropic' | 'ollama' | 'local'
+
+// ── Engine toggle ─────────────────────────────────────────────────────────────
+function setEngine(mode) {
+  engineMode = mode;
+  document.querySelectorAll('.engine-card').forEach(card => {
+    card.classList.toggle('active', card.dataset.engine === mode);
+  });
+  // Show Ollama model selector only when Ollama is chosen
+  document.getElementById('ollama-model-field').style.display =
+    mode === 'ollama' ? 'block' : 'none';
+}
+
+// ── Load DB history on page load ──────────────────────────────────────────────
+async function loadHistory() {
+  try {
+    const resp = await fetch('/api/history');
+    if (!resp.ok) return;
+    dbHistory = await resp.json();
+    renderHistoryChips();
+  } catch {}
+}
+
+function renderHistoryChips() {
+  if (!dbHistory.length) return;
+  const section = document.getElementById('history-section');
+  const row     = document.getElementById('history-row');
+  section.style.display = 'block';
+  row.innerHTML = dbHistory.map(h => `
+    <span class="history-chip" onclick="loadHistorySim(${h.id})">
+      ${h.domain} / R${h.risk} / ₹${h.budget}L
+    </span>`).join('');
+}
+
+async function loadHistorySim(id) {
+  try {
+    const resp = await fetch(`/api/history/${id}`);
+    if (!resp.ok) return;
+    const data = await resp.json();
+    if (data.result) {
+      const p = {
+        domain: data.domain, scenario: data.scenario,
+        budget: data.budget, risk: data.risk,
+        time: data.time_weeks, priority: data.priority
+      };
+      data.result._engine  = data.engine_used || 'anthropic';
+      data.result._latency = data.latency_ms  || 0;
+      renderResults(data.result, p, document.getElementById('results-panel'));
+    }
+  } catch {}
+}
+
+// ── Build params payload ──────────────────────────────────────────────────────
+function getParams() {
+  const priorityCard = document.querySelector('#priority-cards .radio-card.active');
+  return {
+    domain:   document.getElementById('domain').value,
+    scenario: document.getElementById('scenario').value.trim() || 'General strategic expansion decision',
+    budget:   parseInt(document.getElementById('budget').value),
+    risk:     parseInt(document.getElementById('risk').value),
+    time:     parseInt(document.getElementById('time').value),
+    priority: priorityCard?.dataset.val || 'growth',
+    engine:   engineMode,
+    model:    document.getElementById('ollama-model')?.value || 'llama3'
+  };
+}
+
+// ── Error display helper ──────────────────────────────────────────────────────
+function showError(panel, message) {
+  panel.innerHTML = `
+    <div class="error-panel animate-in">
+      <p class="error-title">Simulation failed.</p>
+      <p class="error-detail">${message}</p>
+    </div>
+  `;
+}
+
+// ── Main simulation ───────────────────────────────────────────────────────────
+async function runSimulation() {
+  const btn   = document.getElementById('simulate-btn');
+  const panel = document.getElementById('results-panel');
+  const p     = getParams();
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Analyzing...';
+  document.getElementById('empty-state')?.remove();
+
+  const engineLabels = {
+    anthropic: 'Calling Hybrid AI (Claude + rule engine)...',
+    ollama:    'Running local Ollama LLM...',
+    local:     'Running rule-based decision engine...'
+  };
+
+  panel.innerHTML = `
+    <div class="stream-area animate-in" id="stream-area">
+      <div class="stream-header">
+        <span class="stream-title">AI Processing</span>
+        <span class="live-dot">Streaming</span>
+      </div>
+      <div class="stream-body" id="stream-body">${engineLabels[engineMode] || 'Initializing...'}</div>
+    </div>
+  `;
+
+  let result = null;
+
+  try {
+    const resp = await fetch('/api/simulate', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(p)
+    });
+
+    // Non-2xx → read error JSON and throw
+    if (!resp.ok) {
+      let errMsg = `HTTP ${resp.status}`;
+      try { const errBody = await resp.json(); errMsg = errBody.error || errMsg; } catch {}
+      throw new Error(errMsg);
+    }
+
+    const reader     = resp.body.getReader();
+    const decoder    = new TextDecoder();
+    const streamBody = document.getElementById('stream-body');
+    let   buf        = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+
+      const lines = buf.split('\n');
+      buf = lines.pop();   // keep incomplete line in buffer
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const payload = line.slice(6).trim();
+        if (!payload) continue;
+
+        let msg;
+        try { msg = JSON.parse(payload); }
+        catch { continue; }
+
+        // ── SSE error from backend ────────────────────────────────────────
+        if (msg.error) {
+          throw new Error(msg.error);
+        }
+
+        // ── Streaming delta (Anthropic token) ─────────────────────────────
+        if (msg.delta) {
+          streamBody.textContent += msg.delta;
+        }
+
+        // ── Final result ──────────────────────────────────────────────────
+        if (msg.done && msg.result) {
+          result          = msg.result;
+          result._engine  = msg.engine || 'anthropic';
+          result._latency = msg.latency_ms || 0;
+        }
+      }
+    }
+
+    if (!result) throw new Error('No result received from server.');
+
+    renderResults(result, p, panel);
+    await loadHistory();
+
+  } catch (err) {
+    showError(panel, err.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Run Simulation &rarr;';
+  }
+}
+
+loadHistory();
+
+// ── Render results ────────────────────────────────────────────────────────────
+function renderResults(r, p, panel) {
+  const riskColors    = { Low: '#3ecf8e', Medium: '#f5a623', High: '#ef4444', Critical: '#a855f7' };
+  const outcomeColors = { green: '#3ecf8e', amber: '#f5a623', red: '#ef4444' };
+  const riskColor     = riskColors[r.riskLevel] || '#f5a623';
+
+  const engineLabel = {
+    local:           'Rule Engine',
+    ollama:          'Ollama LLM',
+    ollama_fallback: 'Ollama → Fallback',
+    local_fallback:  'AI → Fallback',
+    anthropic:       'Claude AI'
+  }[r._engine] || 'Claude AI';
+
+  const engineColor = {
+    local:           'var(--amber)',
+    ollama:          'var(--teal)',
+    ollama_fallback: 'var(--red)',
+    local_fallback:  'var(--red)',
+    anthropic:       'var(--green)'
+  }[r._engine] || 'var(--green)';
+
+  panel.innerHTML = `
+    <!-- ENGINE BADGE -->
+    <div style="display:flex;justify-content:flex-end;margin-bottom:-0.5rem;">
+      <span style="font-family:var(--font-mono);font-size:0.65rem;padding:3px 10px;border-radius:12px;
+        background:${engineColor}18;color:${engineColor};border:1px solid ${engineColor}40;">
+        ${engineLabel}
+      </span>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics-row animate-in" style="grid-template-columns:repeat(4,1fr);">
+      <div class="metric-card">
+        <div class="metric-label">Confidence</div>
+        <div class="metric-value" style="color:var(--accent);">${r.confidenceScore}%</div>
+        <span class="metric-badge" style="background:rgba(79,142,247,0.12);color:var(--accent);">AI-scored</span>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Risk Level</div>
+        <div class="metric-value" style="color:${riskColor};">${r.riskLevel}</div>
+        <span class="metric-badge" style="background:rgba(255,255,255,0.05);color:var(--text3);">Risk ${p.risk}/10</span>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Expected ROI</div>
+        <div class="metric-value" style="color:var(--green);">${r.expectedROI}</div>
+        <span class="metric-badge" style="background:rgba(62,207,142,0.1);color:var(--green);">${p.time}w horizon</span>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Latency</div>
+        <div class="metric-value" style="color:var(--teal);">${r._latency > 999 ? (r._latency/1000).toFixed(1)+'s' : r._latency+'ms'}</div>
+        <span class="metric-badge" style="background:rgba(45,212,191,0.1);color:var(--teal);">${engineLabel}</span>
+      </div>
+    </div>
+
+    <!-- INSIGHT -->
+    <div class="insight-box animate-in">
+      <div class="insight-icon">
+        <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <div class="insight-text"><strong>AI Insight:</strong> ${r.insight}</div>
+    </div>
+
+    <!-- OUTCOMES -->
+    <div class="panel animate-in">
+      <div class="panel-header">
+        <div class="panel-header-dot" style="background:var(--accent);"></div>
+        <span class="panel-title">Decision Outcomes</span>
+      </div>
+      <div class="panel-body">
+        <div class="outcomes-list">
+          ${r.outcomes.map(o => `
+            <div class="outcome-item">
+              <div class="outcome-rank">#${o.rank}</div>
+              <div class="outcome-body">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.3rem;">
+                  <div class="outcome-title">${o.title}</div>
+                  <span class="outcome-badge" style="background:${outcomeColors[o.color] || '#4f8ef7'}22;color:${outcomeColors[o.color] || '#4f8ef7'};">${o.badge}</span>
+                </div>
+                <div class="outcome-desc">${o.description}</div>
+                <div class="outcome-score-wrap">
+                  <div class="outcome-bar">
+                    <div class="outcome-bar-fill" style="width:${o.probability}%;background:${outcomeColors[o.color] || '#4f8ef7'};"></div>
+                  </div>
+                  <span class="outcome-pct">${o.probability}%</span>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-card animate-in">
+      <div class="chart-tabs">
+        <div class="chart-tab active" onclick="switchTab('radar', this)">Radar Analysis</div>
+        <div class="chart-tab" onclick="switchTab('bar', this)">Outcome Scores</div>
+        <div class="chart-tab" onclick="switchTab('risks', this)">Risk Factors</div>
+      </div>
+      <div class="chart-body">
+        <div class="tab-content active" id="tab-radar">
+          <canvas id="radarChart" height="240"></canvas>
+        </div>
+        <div class="tab-content" id="tab-bar">
+          <canvas id="barChart" height="240"></canvas>
+        </div>
+        <div class="tab-content" id="tab-risks">
+          <div style="padding:0.5rem 0;">
+            ${(r.keyRisks || []).map((risk, i) => `
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:0.7rem 0;${i > 0 ? 'border-top:1px solid var(--border);' : ''}">
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--red);min-width:20px;margin-top:1px;">R${i+1}</span>
+                <span style="font-size:0.85rem;color:var(--text2);">${risk}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="panel animate-in">
+      <div class="panel-header">
+        <div class="panel-header-dot" style="background:var(--teal);"></div>
+        <span class="panel-title">Executive Summary</span>
+      </div>
+      <div class="panel-body">
+        <p style="font-size:0.88rem;color:var(--text2);line-height:1.75;">${r.summary}</p>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;gap:1.5rem;flex-wrap:wrap;">
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Budget: <span style="color:var(--text);">₹${p.budget}L</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Horizon: <span style="color:var(--text);">${p.time} weeks</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Priority: <span style="color:var(--text);">${p.priority}</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Domain: <span style="color:var(--text);">${p.domain}</span></span>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3);">Engine: <span style="color:${engineColor};">${engineLabel}</span></span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  setTimeout(() => {
+    renderRadarChart(r.radarData);
+    renderBarChart(r.outcomes);
+  }, 100);
+}
+
+function switchTab(tab, el) {
+  document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + tab)?.classList.add('active');
+}
+
+function renderRadarChart(data) {
+  const ctx = document.getElementById('radarChart');
+  if (!ctx) return;
+  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+  chartInstance = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: data.labels,
+      datasets: [{
+        label: 'Decision Score',
+        data: data.values,
+        borderColor: '#4f8ef7',
+        backgroundColor: 'rgba(79,142,247,0.12)',
+        borderWidth: 2,
+        pointBackgroundColor: '#4f8ef7',
+        pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { display: false },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          angleLines: { color: 'rgba(255,255,255,0.08)' },
+          pointLabels: { color: '#9ba3b8', font: { size: 11, family: 'DM Mono' } }
+        }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+function renderBarChart(outcomes) {
+  const ctx = document.getElementById('barChart');
+  if (!ctx) return;
+  const colors = outcomes.map(o => o.color === 'green' ? '#3ecf8e' : o.color === 'amber' ? '#f5a623' : '#ef4444');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: outcomes.map(o => o.title.substring(0, 20) + (o.title.length > 20 ? '…' : '')),
+      datasets: [{
+        data: outcomes.map(o => o.probability),
+        backgroundColor: colors.map(c => c + '33'),
+        borderColor: colors,
+        borderWidth: 1.5,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#9ba3b8', font: { size: 10 } } },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          ticks: { color: '#9ba3b8', font: { size: 10 } },
+          min: 0, max: 100
+        }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+</script>
+</body>
+</html>
+</file>
+
+</files>
